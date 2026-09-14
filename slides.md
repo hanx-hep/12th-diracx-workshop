@@ -19,7 +19,7 @@ themeConfig:
 
 # AI-Assisted DIRAC Deployment<br/>and Operations at IHEP
 
-#### Layered autonomy, review gates, and skills that accumulate
+#### dci-agent, scoped actions, and knowledge that accumulates
 
 <br>
 
@@ -36,21 +36,21 @@ themeConfig:
 <!--
 Timing: 0:30
 
-Good morning. I am Xiao Han, from the IHEP DCI Group. This talk is about how we use AI agents to help deploy and operate DIRAC at IHEP: the upgrade work toward DIRAC v9, the monitoring stack, controlled agent access, and how operational knowledge is made to stick. One design rule runs through everything: AI proposes and prepares; humans keep the gates.
+Good morning. I am Xiao Han, from the IHEP DCI Group. This talk is about AI-assisted deployment and operations of DIRAC at IHEP. The core is an agent we call dci-agent: it sees the whole middleware chain through a read-only, sanitized evidence plane, answers operators in chat, runs scheduled analyses — and can execute a small set of whitelisted actions through scoped MCP services. Deployment work toward DIRAC v9 comes as a case study of the same principles.
 -->
 ---
 layout: default
 ---
 
-# What operating DIRAC at IHEP involves
+# What operating the IHEP DCI involves
 
 <div class="cols mt-2">
   <div>
 
 <div class="triage-list">
   <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 6 SiteDirector instances (JUNO, CEPC, CMS, BES, LHCb, JUNOCloud).</span></div>
+  <div><small>MIDDLEWARE CHAIN</small><strong>FTS · grid-data · IHEPDIRAC</strong><span>Transfers, storage and site services — each with its own configs and logs.</span></div>
   <div><small>IN PREPARATION</small><strong>v9.0.22 migration baseline</strong><span>An isolated test host with a clean v9 install, validated step by step.</span></div>
-  <div><small>ON THE HORIZON</small><strong>CEPC computing</strong><span>The monitoring and operations patterns we build now must transfer.</span></div>
 </div>
 
   </div>
@@ -64,7 +64,7 @@ The daily work is four streams:
 - **Record** — runbooks, install notes, the knowledge the next shift needs
 
 <div class="takeaway compact mt-4">
-All four are text-and-config heavy — exactly where an AI agent with the right <strong>gates</strong> helps.
+A fault's symptom and its cause often live on <strong>different systems</strong> — exactly where an agent with one read-only view helps.
 </div>
 
   </div>
@@ -74,7 +74,7 @@ All four are text-and-config heavy — exactly where an AI agent with the right 
 <!--
 Timing: 0:50
 
-Context first. In production we run DIRAC v8.0.58 for JUNO: more than sixty components on five servers, and six SiteDirector instances serving different experiments. A v9 migration baseline is being prepared on an isolated test host. And CEPC is coming, so whatever we build must transfer. The daily work falls into four streams: deploy, watch, diagnose, record. All four are text and configuration heavy — which is exactly where AI agents help, if the gates are right.
+Context first. In production we run DIRAC v8.0.58 for JUNO: more than sixty components on five servers, six SiteDirectors. Around it runs a middleware chain — FTS for transfers, grid-data and site services — each with its own configurations and logs. A v9 migration baseline is being prepared in isolation. The daily work is four streams: deploy, watch, diagnose, record. The pain point: a symptom shows on one system, the cause hides on another. That is exactly where an agent with one read-only view across the chain helps.
 -->
 ---
 layout: default
@@ -85,31 +85,31 @@ layout: default
 <div class="four-cards mt-4">
   <div class="story-card">
     <h2>L1 · Observes</h2>
-    <p>Monitoring illuminates everything. Deterministic checks, dashboards in Grafana.</p>
+    <p>Read-only evidence plane: dashboards, logs, configs, databases — all sanitized.</p>
   </div>
   <div class="story-card">
     <h2>L2 · Advises</h2>
-    <p>Agent drafts dashboards, configs, runbooks, docs — always for human review.</p>
+    <p>Agent aggregates, analyzes status, drafts diagnoses — always for human review.</p>
   </div>
   <div class="story-card">
-    <h2>L3 · Prepares action</h2>
-    <p>Agent assembles change + evidence; a human approves each one. Designed, not yet live.</p>
+    <h2>L3 · Scoped actions</h2>
+    <p>Whitelisted operations via MCP with scoped tokens — restart a component, restart FTS.</p>
   </div>
   <div class="story-card">
     <h2>L4 · Bounded acts</h2>
-    <p>Whitelist of reversible actions with hard caps. Not claimed today — to be earned by data.</p>
+    <p>Wider envelope with caps and rollback. Not claimed today — to be earned by data.</p>
   </div>
 </div>
 
 <div class="takeaway mt-6">
-The axis is <strong>control, not capability</strong>. Every AI output lands in a review gate: a Git diff, a UI check, or an approval click. A weak model means poor wording — never a silent production change.
+The axis is <strong>control, not capability</strong>. Reading is free; acting is a whitelist. A weak model produces a poor answer — never an unplanned production change.
 </div>
 
 
 <!--
 Timing: 1:20
 
-The principle we borrowed from autonomous driving levels, but the axis is control, not capability. Level one: the system observes — deterministic checks and dashboards. Level two: the AI advises — it drafts dashboards, configurations, runbooks, always for human review. Level three, designed but not yet live: the agent prepares an action with its evidence chain, and a human approves. Level four — bounded autonomy over reversible actions — we do not claim today; it has to be earned by data. The one rule that makes this safe: every AI output lands in a review gate. A Git diff, a check in the UI, an approval click. A weak model produces poor wording, never a silent production change.
+The principle, borrowed from autonomy levels, with control — not capability — as the axis. Level one: the system observes, through a read-only, sanitized view of everything. Level two: the AI advises — aggregation, status analysis, diagnosis drafts, for human review. Level three: scoped actions — a small whitelist of operations executed through MCP services with dedicated scoped tokens, like restarting a DIRAC component or an FTS service. Level four — a wider envelope with caps and rollback — we do not claim today. The rule that makes this safe: reading is free, acting is a whitelist. A weak model produces a poor answer, never an unplanned production change.
 -->
 ---
 layout: default
@@ -119,7 +119,7 @@ layout: default
 
 ```mermaid {scale: 0.58}
 flowchart LR
-    A[Operator<br/>intent + constraints] -->|prompt| B[AI agent<br/>OpenCode / Hermes]
+    A[Operator<br/>intent + constraints] -->|prompt| B[dci-agent<br/>Hermes-based]
     S[(Skills + runbooks<br/>+ repo guides)] -. consult .-> B
     B -->|configs · JSON · docs| C[Deterministic<br/>verification]
     C -->|build · install · provision| D[Human review<br/>git diff / UI]
@@ -129,15 +129,15 @@ flowchart LR
 ```
 
 <div class="two-notes compact-notes mt-3">
-  <div><strong>Agent side</strong><br/>Repetitive work: config surgery, dashboard JSON, install debugging, documentation of what happened.</div>
+  <div><strong>Agent side</strong><br/>Repetitive work: config surgery, dashboard JSON, install debugging, multi-source analysis.</div>
   <div><strong>Human side</strong><br/>Intent and constraints, the final review of every diff, and the decision to act on production.</div>
 </div>
 
 
 <!--
-Timing: 1:05
+Timing: 1:00
 
-Here is the loop we actually run. The operator states intent and constraints. An agent — OpenCode or Hermes — picks it up, consulting the accumulated skills, runbooks, and repository guides. It produces configurations, dashboard JSON, or documentation. Verification is deterministic: it installs, it builds, it provisions, or it fails — the LLM never decides success. Then a human reviews the diff and approves or sends it back. What we learn along the way flows back into the skill library. The next slide shows this loop applied to the v9 upgrade.
+Here is the loop we run for anything that changes the system. The operator states intent; the agent — Hermes-based, carrying our accumulated skills and runbooks — produces configurations, dashboard JSON, or documentation; verification is deterministic — it installs, builds, provisions, or fails, never decided by the LLM; a human reviews the diff and approves. What we learn flows back into the skill library. Next: how the same agent operates day to day.
 -->
 ---
 layout: section
@@ -189,118 +189,177 @@ Production stays on <strong>v8.0.58</strong> until readiness is proven.
 
 
 <!--
-Timing: 1:20
+Timing: 1:15
 
-The upgrade case. On the left, what the agent did. A clean v9.0.22 install on an isolated host: DIRACOS2, fresh databases, fresh OpenSearch. It debugged real pitfalls — a proxy hijacking the setup script, OpenSearch section names that differ between install and runtime, file-descriptor limits for runit, MySQL limits, and a host-certificate hostname mismatch that broke the Configuration Server. It stood up SiteDirectorJUNO and walked the full pilot chain to an HTCondor CE. And it wrote everything down in runbook style. On the right, what humans kept: the version decision, the secrets discipline — tokens and keys never enter prompts or documents — and the review of every change. Production stays on v8.0.58. The pilot chain is validated, and every pitfall is now a documented step instead of tribal memory.
+The upgrade case, briefly. On an isolated host the agent did a clean v9.0.22 install — fresh databases, DIRACOS2 through a proxy — and debugged the real pitfalls: a proxy hijacking the setup script, OpenSearch section names that differ between install and runtime, file-descriptor and MySQL limits, and a certificate hostname mismatch. It stood up SiteDirectorJUNO and validated the pilot chain to an HTCondor CE. Humans kept the version decision, the go/no-go, and the secrets discipline. Production stays on v8.0.58. Every pitfall is now a documented step. This is the deployment face of the same loop — now the main part: operations.
 -->
 ---
 layout: section
 ---
 
-# 2 · Operate: monitoring with control
+# 2 · Operate: dci-agent and scoped MCP
 
 
 <!--
 Timing: 0:10
 
-Part two: operations — monitoring, and controlled agent access to it.
+Part two — the main part: dci-agent, how it sees the chain, and how it acts.
 -->
 ---
 layout: default
 ---
 
-# Dashboards are code the agent can write
+# dci-agent: one read-only view of the chain
 
-<div class="provider-grid mt-3">
-  <div class="provider"><strong>10</strong><span>Admin</span></div>
-  <div class="provider"><strong>9</strong><span>DIRAC</span></div>
-  <div class="provider"><strong>6</strong><span>TPC</span></div>
-  <div class="provider"><strong>4</strong><span>User</span></div>
-  <div class="provider"><strong>2</strong><span>Shift</span></div>
-</div>
-
-<div class="delivery-loop mt-5">
-  <div><small>CREATE</small><strong>UI or agent</strong></div>
-  <mdi-arrow-right />
-  <div><small>CAPTURE</small><strong>Dashboard JSON</strong></div>
-  <mdi-arrow-right />
-  <div><small>CONTROL</small><strong>Git review</strong></div>
-  <mdi-arrow-right />
-  <div><small>RECONCILE</small><strong>30 s sync</strong></div>
-</div>
-
-<div class="two-notes compact-notes mt-4">
-  <div><strong>31 dashboards in Git</strong><br/>Five provisioning providers reconstruct the whole layout from version-controlled JSON, synced every 30 seconds.</div>
-  <div><strong>The agent's part</strong><br/>It repeats panels, queries, variables, and layouts across similar dashboards — the SAM v4 view was iterated 18 times through this loop.</div>
-</div>
-
-
-<!--
-Timing: 1:05
-
-Monitoring. All thirty-one Grafana dashboards are JSON files in Git, under five providers, synced every thirty seconds. The loop is the same as before: create — by human or agent — capture as JSON, review the Git diff, reconcile automatically. The agent's advantage is repetition: when one dashboard means forty similar panels, it composes them all, and the human reviews one diff. The SAM v4 availability view went through eighteen iterations this way. This is Level two autonomy in daily use: the agent writes, the diff gate decides.
--->
----
-layout: default
----
-
-# Agents read Grafana through one gateway
-
-```mermaid {scale: 0.56}
+```mermaid {scale: 0.5}
 flowchart LR
-    C[AI agent<br/>or MCP client] -->|MCP JSON-RPC| G[mcp.ihep.ac.cn<br/>central gateway]
-    subgraph CP[Central identity and policy]
-        G -->|verify key and scope| A[Auth service]
-        A --> L[(IHEP LDAP)]
-        A --> P[(PostgreSQL)]
+    subgraph RO[Read-only evidence plane · sanitized]
+        direction LR
+        F1[FTS] --- F2[DIRAC · IHEPDIRAC] --- F3[grid-data]
     end
-    G -->|authorized tool call| M[mcp-grafana]
-    subgraph MB[Monitoring boundary]
-        M -->|Grafana API / render| F[DCI Grafana]
-        F --> D[(Prometheus / Elasticsearch)]
-    end
+    RO -->|NFS read-only mounts<br/>configs · logs| A[dci-agent<br/>Hermes-based]
+    DB[(Databases<br/>read-only)] --> A
+    MON[Monitoring<br/>Grafana · Prometheus] --> A
+    A -->|answers · summaries · drafts| C[Operators · chat]
+    A -->|scheduled runs| R[Status reports<br/>anomaly flags]
 ```
 
-<div class="two-notes compact-notes mt-3">
-  <div><strong>Read-first tools</strong><br/><code>search_dashboards</code> · <code>get_dashboard_panel_queries</code> · <code>query_prometheus</code> · <code>get_panel_image</code> — inspection and explanation, behind one authenticated gateway.</div>
-  <div><strong>Policy stays centralized</strong><br/>Identity and scope at the gateway; write operations still require explicit authorization.</div>
+<div class="two-notes compact-notes mt-1">
+  <div><strong>How it sees</strong><br/>NFS mounts configs and logs <em>read-only</em>; databases and monitoring connect read-only; content is sanitized before any prompt.</div>
+  <div><strong>What it does</strong><br/>Aggregates across sources, analyzes running state, assists troubleshooting — on demand or on schedule.</div>
 </div>
 
 
 <!--
-Timing: 1:05
+Timing: 1:25
 
-Agents do not touch Grafana directly. Every request goes to the central MCP gateway, which checks the key and its scope against LDAP and PostgreSQL. Only then is the tool call passed to mcp-grafana, which speaks the Grafana API and can render panel images. The tools are read-first: find dashboards, read their queries, run Prometheus queries, return images. This is how the verification step of the loop works in practice — the agent checks the live result of the change it proposed, through a scoped, auditable path.
+The core of the talk. dci-agent is built on Hermes, and its superpower is boring: it has one read-only view of the whole chain. The config and log folders of FTS, DIRAC, IHEPDIRAC, and grid-data are NFS-mounted read-only. Databases and monitoring are connected with read-only access. Everything the agent reads is sanitized before it reaches a prompt. With that one view, it aggregates information across sources, analyzes the running state, and assists troubleshooting when something looks wrong. And it works in two modes — which is the next slide.
 -->
 ---
 layout: default
 ---
 
-# Central logs, one search box
+# Driven by chat, and by the clock
 
 <div class="cols mt-2">
   <div>
 
-```text
-# /opt/dirac/etc/CAS_Prod.cfg
-Logging
-{
-  DefaultServicesBackends = stdout
-  DefaultServicesBackends += mqLogs
-  DefaultAgentsBackends = stdout
-  DefaultAgentsBackends += mqLogs
-}
+## Interactive — operators ask
+
+<div class="triage-list">
+  <div><small>ASK</small><strong>"What is the transfer status for site X?"</strong><span>The agent pulls FTS logs, DIRAC data-operation views, and answers with sources.</span></div>
+  <div><small>ASSIST</small><strong>"Help me triage this failure"</strong><span>It correlates logs and configs across systems and drafts a first-pass diagnosis for review.</span></div>
+</div>
+
+  </div>
+  <div>
+
+## Scheduled — it runs itself
+
+<div class="triage-list">
+  <div><small>PERIODIC</small><strong>Multi-source aggregation</strong><span>Scheduled tasks collect status across the chain and summarize the running state.</span></div>
+  <div><small>ON ANOMALY</small><strong>Analysis for review</strong><span>When something looks off, the analysis is drafted and flagged — the operator judges.</span></div>
+</div>
+
+  </div>
+</div>
+
+<div class="takeaway mt-4">
+Same evidence plane, same sanitized read-only rule — only the <strong>trigger</strong> differs: a message from a person, or the clock.
+</div>
+
+
+<!--
+Timing: 1:05
+
+dci-agent is driven two ways. Interactively: operators talk to it in chat — ask for the transfer status of a site, ask for help triaging a failure — and it answers with evidence it can cite, or drafts a first-pass diagnosis for review. And on a schedule: periodic tasks aggregate status across the chain and summarize the running state; when something looks off, an analysis is drafted and flagged for a human to judge. The same evidence plane and the same read-only rule apply in both modes — only the trigger differs: a message from a person, or the clock.
+-->
+---
+layout: default
+---
+
+# Read-only and sanitized by construction
+
+<div class="cols mt-2">
+  <div>
+
+## Read-only is a property, not a policy
+
+- NFS mounts are <strong>read-only</strong> — configs and logs cannot be written
+- Database and monitoring connections are <strong>read-only accounts</strong>
+- The evidence plane simply has <strong>no write path</strong> to the middleware
+
+<div class="takeaway compact mt-3">
+Worst case is a wrong answer — never a corrupted system.
+</div>
+
+  </div>
+  <div>
+
+## Sanitized before the model
+
+- Log and config content is <strong>masked</strong> — credentials, tokens, keys filtered out
+- Sized and classified before entering any prompt
+- Humans always see the <strong>raw</strong> data in the UI; only the model reads the filtered copy
+
+<div class="takeaway compact mt-3">
+A crafted log line cannot steer the agent — injection-safe by construction.
+</div>
+
+  </div>
+</div>
+
+
+<!--
+Timing: 1:00
+
+Two design decisions carry most of the safety. First: read-only is a property, not a policy. The NFS mounts are read-only, the database and monitoring accounts are read-only — the evidence plane has no write path to the middleware at all. The worst the agent can do is be wrong, not destructive. Second: everything is sanitized before the model sees it. Credentials, tokens and keys are filtered; content is sized and classified. A crafted log line cannot steer the agent. Humans, of course, always see the raw data — only the model reads the filtered copy. So how does the agent ever act? Through a very narrow door.
+-->
+---
+layout: default
+---
+
+# Actions live inside MCP functions
+
+```mermaid {scale: 0.5}
+flowchart LR
+    A[dci-agent] -->|dedicated token · scope| M[MCP service]
+    M --> P1[internal function<br/>restart DIRAC component]
+    M --> P2[internal function<br/>restart FTS service]
+    P1 --> T1[middleware servers]
+    P2 --> T2[FTS]
+    SK[(Skills ·<br/>context gate)] -. when to call .-> A
 ```
 
-```mermaid {scale: 0.48}
-flowchart LR
-    A[DIRAC services<br/>and agents] --> B[mqLogs] --> C[ActiveMQ]
-    C --> D[Logstash] --> E[(Elasticsearch)]
-    E --> F[Grafana]
-```
+<div class="rule-list mt-3">
+  <div><mdi-key-outline /><span><strong>Scoped tokens</strong> — the agent authenticates with a dedicated token whose scope names exactly what may be executed; nothing else is reachable.</span></div>
+  <div><mdi-cube-outline /><span><strong>Operations are code, not prompts</strong> — "restart component X" is an internal function inside the MCP service; the agent cannot compose arbitrary shell commands.</span></div>
+  <div><mdi-book-open-variant-outline /><span><strong>Skills gate the context</strong> — the agent's skills define when calling an action MCP is appropriate at all; outside those scenarios it does not offer the action.</span></div>
+</div>
+
+
+<!--
+Timing: 1:25
+
+The narrow door. To let the agent act, we added MCP services. The agent authenticates with a dedicated token, and the token's scope names exactly which operations are reachable — nothing else. The operations themselves are internal functions inside the MCP service: restart a DIRAC component, restart an FTS service. The agent cannot compose arbitrary shell commands — it can only invoke the whitelisted function. And on top of that, the agent's skills define the context in which calling the action is appropriate at all: outside those scenarios, the action is not offered. So the blast radius of any mistake — the model's or ours — is bounded by three independent gates: the scope, the function boundary, and the skill context. That is level-three autonomy as we practice it.
+-->
+---
+layout: default
+---
+
+# The evidence layer in one place
+
+<div class="cols mt-2">
+  <div>
+
+## Monitoring behind the agent too
+
+- **31 dashboards as Git JSON** — five provisioning providers, 30 s sync; the agent can compose them, humans review the diff
+- **Central DIRAC logs** — one backend line sends 60+ components through ActiveMQ → Logstash → Elasticsearch
+- The agent reads the <strong>same evidence</strong> operators see — no private data path
 
 <div class="takeaway compact mt-2">
-One backend line turns <strong>60+ components</strong> on 5 servers into one searchable timeline.
+Dashboards, metrics, logs: one evidence layer serving people and agents alike.
 </div>
 
   </div>
@@ -323,37 +382,9 @@ One backend line turns <strong>60+ components</strong> on 5 servers into one sea
 
 
 <!--
-Timing: 1:05
+Timing: 1:00
 
-Logs. One line in the DIRAC configuration — the mqLogs backend — sends every service and agent's log messages to ActiveMQ, through Logstash, into Elasticsearch. Grafana queries that store. The effect: sixty-plus components on five servers become one searchable timeline. The dashboard on the right is the live Component Logs view, frozen to a past day for this talk. The triage pattern is three steps: distribution — is the error mix abnormal; timeline — when did it change; records — which message is actionable. This is the evidence layer the agent reads through the gateway — and the next slide is what we want to build on top of it.
--->
----
-layout: default
----
-
-# Next: logs that raise their hand
-
-<div class="two-notes compact-notes mt-2">
-  <div><strong>Delivered</strong><br/>Central collection for 60+ components; distribution, timeline, and record panels; one search box.</div>
-  <div><strong>The gap</strong><br/>Logs are searched <em>after</em> a problem is noticed — the archive itself raises no signal.</div>
-</div>
-
-<div class="status-stack next tight cols-2 mt-2">
-  <div><mdi-arrow-right-circle-outline /><span><strong>Error-pattern detection</strong><br/>Automatic grouping of recurring component errors — Grafana Sift investigations.</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>Anomaly alerts on log rates</strong><br/>Alert when warning or error volume deviates from the component baseline.</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>Linked metrics ↔ logs</strong><br/>Carry site, component, and time range from a metric spike straight to its logs.</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>Agent-assisted triage</strong><br/>The agent reads the same evidence through MCP and drafts the first diagnosis for review.</span></div>
-</div>
-
-<div class="takeaway compact mt-3">
-The plan must survive the <strong>DIRAC v9 upgrade</strong> — a compatibility requirement, not a re-build.
-</div>
-
-
-<!--
-Timing: 0:55
-
-The plan for logs. Today we have collection and search; the gap is that the archive waits for someone to look. Four steps close it: automatic error-pattern grouping with Grafana Sift; alerts on log-rate anomalies; links that carry site, component, and time range from a metric straight into the logs; and agent-assisted triage — the agent reads the same evidence through the MCP gateway and drafts a first diagnosis for human review. One constraint: all of this must survive the v9 upgrade as a compatibility requirement, not a rebuild.
+The evidence layer underneath all of this. The Grafana dashboards are JSON in Git — thirty-one of them under five providers — so the agent can compose them and humans review the diff; that is one small, useful piece of automation. The DIRAC component logs are centralized with one backend line through ActiveMQ, Logstash and Elasticsearch. The live view on the right is what both operators and the agent read — the same evidence, no private data path for the model. Reading is free; that was the design choice.
 -->
 ---
 layout: section
@@ -382,8 +413,8 @@ flowchart LR
 ```
 
 <div class="two-notes compact-notes mt-3">
-  <div><strong>In place today</strong><br/>DIRAC and job-operations skills on shared storage; per-repository agent guides (install steps, provisioning rules, command caveats); upgrade notes from the v9 sessions.</div>
-  <div><strong>What it changes</strong><br/>The next session starts from the accumulated steps — the proxy pitfall, the section names, the certificate FQDN fix are already written down, waiting to be consulted.</div>
+  <div><strong>In place today</strong><br/>DIRAC and job-operations skills on shared storage; per-repository agent guides; upgrade notes from the v9 sessions.</div>
+  <div><strong>Skills do double duty</strong><br/>They make the agent smarter about the chain — and they define when an action MCP may be called at all.</div>
 </div>
 
 <div class="takeaway mt-3">
@@ -394,7 +425,7 @@ The v9 install pitfalls were solved once and <strong>documented once</strong> �
 <!--
 Timing: 1:00
 
-This is the loop that makes the work compound. A problem gets solved during a session. The write-up happens in runbook style, and a human reviews it — not for prose, for correctness. Approved notes become agent skills on shared storage, or repository guides that agents read before acting. The upgrade is the proof: the proxy pitfall, the OpenSearch section names, the certificate hostname fix — each was solved once and documented once. The next host install consults those notes instead of rediscovering them. Every fix makes the next one easier.
+This is the loop that makes the work compound. A problem gets solved during a session; the write-up happens in runbook style; a human reviews it; approved notes become agent skills on shared storage or repository guides. Two effects: the next session starts from the accumulated steps, and the skills double as context gates for the action MCPs — they define when an action may be offered at all. The upgrade is the proof: each pitfall was solved once and documented once. Every fix makes the next one easier.
 -->
 ---
 layout: default
@@ -403,18 +434,18 @@ layout: default
 # Five rules that keep it safe
 
 <div class="rule-list mt-3">
-  <div><mdi-check-circle-outline /><span><strong>Detection stays deterministic.</strong> Provisioning sync, Prometheus checks, install success — the LLM never decides whether something works.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Every agent output lands in a review gate.</strong> A Git diff, a UI check, an approval click — nothing reaches production silently.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Access is read-first and scoped.</strong> One authenticated gateway, key and scope checks, write operations need explicit authorization.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Secrets never enter prompts or documents.</strong> Tokens, client secrets, keys, and passwords stay outside — the upgrade notes were written under this rule.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Knowledge is written to be consulted.</strong> Notes and skills are part of the workflow, not an afterthought — they are what the next agent session reads first.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>The evidence plane is read-only by construction.</strong> NFS mounts, database and monitoring accounts — there is no write path from the agent to the middleware.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Everything the model reads is sanitized.</strong> Credentials, tokens and keys are filtered before any prompt; humans keep the raw view.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Actions are whitelisted functions behind scoped tokens.</strong> The agent invokes predefined operations — it cannot compose arbitrary commands.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Skills gate when actions may be invoked.</strong> Outside the defined scenarios, the action is not offered to the model at all.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Knowledge is written to be consulted.</strong> Notes and skills are part of the workflow, not an afterthought — they are what the next session reads first.</span></div>
 </div>
 
 
 <!--
 Timing: 1:05
 
-Five rules hold the whole thing together. Detection stays deterministic — the LLM never decides whether something works. Every agent output lands in a review gate. Access is read-first and scoped through one gateway. Secrets never enter prompts or documents — the upgrade notes were written under exactly this rule. And knowledge is written to be consulted — notes are part of the workflow, not an afterthought. None of these rules required new platforms; they are disciplines applied to ordinary Git repositories, configs, and docs.
+Five rules hold the system together. The evidence plane is read-only by construction — no write path exists. Everything the model reads is sanitized — secrets are filtered, humans keep the raw view. Actions are whitelisted functions behind scoped tokens — the agent invokes, it cannot compose. Skills gate when actions may be invoked at all. And knowledge is written to be consulted — notes are part of the workflow. None of this required a new platform: disciplines, applied to ordinary mounts, tokens, functions and documents.
 -->
 ---
 layout: default
@@ -425,37 +456,37 @@ layout: default
 <div class="cols mt-2">
   <div>
 
-## Horizontal — widen the loop
+## Horizontal — widen the view
 
 <div class="status-stack tight">
-  <div><mdi-arrow-right-circle-outline /><span><strong>Log early warning</strong><br/>Error patterns and log-rate anomalies, as planned</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>More sources, same contract</strong><br/>More middleware log and config mounts; scheduled analyses over all of them</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>Log early warning</strong><br/>Error patterns and log-rate anomalies from the centralized logs</span></div>
   <div><mdi-arrow-right-circle-outline /><span><strong>RAG over runbooks</strong><br/>Natural-language query over accumulated notes, on our own infra</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>More sources, same contract</strong><br/>HTCondor, storage, transfer logs — checks in, JSON out</span></div>
 </div>
 
   </div>
   <div>
 
-## Vertical — earn L3, then L4
+## Vertical — widen the whitelist
 
 <div class="status-stack next tight">
-  <div><mdi-arrow-right-circle-outline /><span><strong>L3 approval cards</strong><br/>Proposed action + evidence chain + one-tap approve; audit table first</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>L4 bounded envelope</strong><br/>Reversible actions only, with caps and auto-rollback</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>The gate is data</strong><br/>Enough recorded dispositions to prove which actions are safe</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>More MCP functions</strong><br/>Each new operation is added as a reviewed internal function with its own scope</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>Audit table first</strong><br/>Every proposal, decision and outcome persisted before any envelope widens</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>L4: caps and rollback</strong><br/>Reversible actions only, rate-limited, auto-rollback — earned by data</span></div>
 </div>
 
   </div>
 </div>
 
 <div class="takeaway compact mt-3">
-First L3 candidates: <em>retry a failed transfer batch</em> · <em>restart a stuck component</em>. Autonomy is earned by evidence, not by confidence.
+Each new action is a deliberate <strong>code review</strong>, not a prompt tweak. Autonomy is earned by evidence, not by confidence.
 </div>
 
 
 <!--
 Timing: 1:00
 
-The roadmap has two directions. Horizontal: widen the loop — log early warning, retrieval over our own runbooks, and more sources under the same contract: checks in, JSON out, memory in the middle. Vertical: earn level three — approval cards that carry the evidence chain, with an audit table built first — and then level four, a small envelope of reversible actions with caps and automatic rollback. The gate between the levels is not engineering effort, it is evidence: the recorded history has to prove an action is safe. Data earns autonomy, not confidence.
+The roadmap. Horizontal: widen the view — more middleware mounts under the same read-only contract, log early warning from the centralized logs, and retrieval over our own runbooks on our own infrastructure. Vertical: widen the whitelist — but each new operation enters as a reviewed internal function with its own scope; an audit table comes before any envelope widens; and level four, eventually, means reversible actions with rate limits and automatic rollback. Each new action is a deliberate code review, not a prompt tweak. Autonomy is earned by evidence, not by confidence.
 -->
 ---
 layout: default
@@ -464,9 +495,9 @@ layout: default
 # Summary
 
 <div class="three-cards takeaway-cards mt-6">
-  <div class="story-card"><strong>1</strong><h2>Gated</h2><p>Layered autonomy with review gates: the agent drafts and verifies, humans decide — in the v9 upgrade and in daily operations alike.</p></div>
-  <div class="story-card"><strong>2</strong><h2>Grounded</h2><p>Agents work on real artifacts — dashboard JSON, DIRAC configs, logs — through deterministic checks and one read-first gateway.</p></div>
-  <div class="story-card"><strong>3</strong><h2>Compounding</h2><p>Every fix becomes a note, a skill, or a guide. The next session — and the next experiment — starts from all of them.</p></div>
+  <div class="story-card"><strong>1</strong><h2>Read-only</h2><p>One sanitized, read-only view of the whole middleware chain — chat-driven or scheduled, worst case is a wrong answer.</p></div>
+  <div class="story-card"><strong>2</strong><h2>Scoped actions</h2><p>Acting means invoking a whitelisted MCP function with a scoped token, in a skill-defined context — nothing more.</p></div>
+  <div class="story-card"><strong>3</strong><h2>Compounding</h2><p>Every fix becomes a note, a skill, a guide. The next session — and the next experiment — starts from all of them.</p></div>
 </div>
 
 <div class="closing-line mt-10">
@@ -478,7 +509,7 @@ It is an <strong>operator with a much longer reach</strong>.
 <!--
 Timing: 0:50
 
-Three takeaways. Gated: layered autonomy with review gates — the agent drafts, humans decide, from the v9 upgrade to daily dashboards. Grounded: agents work on real artifacts through deterministic checks and one read-first gateway. Compounding: every fix becomes a note, a skill, a guide — the next session and the next experiment start from all of them. The goal is not an autopilot. It is an operator with a much longer reach. Thank you.
+Three takeaways. Read-only: one sanitized view of the whole chain, driven by chat or by the clock — the worst case is a wrong answer, not a broken system. Scoped actions: acting means invoking a whitelisted function with a scoped token in a skill-defined context, and nothing more. Compounding: every fix becomes a note, a skill, a guide — the next session and the next experiment start from all of them. The goal is not an autopilot. It is an operator with a much longer reach. Thank you.
 -->
 ---
 layout: cover
