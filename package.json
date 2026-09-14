@@ -1,0 +1,15 @@
+{
+  "name": "12th-diracx-workshop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "slidev build",
+    "dev": "slidev --open",
+    "postbuild": "node scripts-strip-fonts.cjs"
+  },
+  "dependencies": {
+    "@iconify-json/mdi": "latest",
+    "@ktym4a/slidev-theme-ktym4a": "^0.3.2",
+    "@slidev/cli": "latest"
+  }
+}
