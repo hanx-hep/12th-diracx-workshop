@@ -171,7 +171,7 @@ layout: default
 
 # dci-agent: one read-only view of the chain
 
-```mermaid {scale: 0.44}
+```mermaid {scale: 0.58}
 flowchart LR
     subgraph RO[Read-only NFS mounts · credentials sanitized]
         direction LR
