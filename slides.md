@@ -42,7 +42,7 @@ Good morning. I am Xiao Han, from the IHEP DCI Group. AI models keep getting str
 layout: default
 ---
 
-# AI is ready to help operate the DCI
+# A stronger AI now helps operate the DCI
 
 <div class="cols mt-2">
   <div>
@@ -50,11 +50,11 @@ layout: default
 ## Why now
 
 - Models are <strong>stronger</strong> — better reasoning over configs, logs, and code
-- They <strong>understand our stack</strong> — DIRAC, FTS, grid middleware are well-documented territory
+- They can <strong>reason across our stack</strong> — DIRAC, FTS, and grid middleware
 - Tool ecosystems matured — <strong>MCP</strong>, agent frameworks, skill libraries
 
 <div class="takeaway compact mt-3">
-At IHEP's DCI we deployed <strong>dci-agent</strong>: an operational agent that watches the middleware chain, reports, assists troubleshooting — and, step by step, learns to act.
+At IHEP we deployed <strong>dci-agent</strong> to bring cross-system evidence into everyday operations.
 </div>
 
   </div>
@@ -62,13 +62,13 @@ At IHEP's DCI we deployed <strong>dci-agent</strong>: an operational agent that 
 
 ## What we ask of it
 
-- <strong>See everything</strong> — configs, logs, source code, databases, monitoring
+- <strong>See the chain</strong> — sanitized configs, logs, source, and monitoring
 - <strong>Answer and report</strong> — on demand in chat, and on a schedule
-- <strong>Help deploy</strong> — it completed a DIRAC v9 test deployment
+- <strong>Help deploy</strong> — it largely completed a DIRAC v9 test deployment
 - <strong>Stay safe</strong> — read-only by construction; actions only through whitelisted MCP functions
 
 <div class="takeaway compact mt-3">
-Four asks — the rest of this talk presents them in order.
+Start with operations; then show the MCP and skills behind them.
 </div>
 
   </div>
@@ -78,13 +78,13 @@ Four asks — the rest of this talk presents them in order.
 <!--
 Timing: 0:50
 
-Why this talk, now. Three shifts: the models are genuinely stronger at reasoning over configuration, logs and code; they understand our kind of stack, because DIRAC, FTS and grid middleware are well-documented; and the tooling matured — MCP services, agent frameworks, skill libraries. So we deployed dci-agent in the IHEP DCI. We ask four things of it: see everything, answer and report, help deploy, and stay safe. The rest of the first half explains each of those in turn.
+Why this talk now? Models reason better over configs, logs and code, and MCP and skills make that reasoning useful. We deployed dci-agent to bring evidence from across IHEP DCI into everyday operations: see the chain, answer and report, help deploy, and keep actions inside an explicit boundary. First I will show the operations; then I will show the infrastructure behind them.
 -->
 ---
 layout: default
 ---
 
-# What operating the IHEP DCI involves
+# DCI operations cross multiple systems
 
 <div class="cols mt-2">
   <div>
@@ -92,7 +92,7 @@ layout: default
 <div class="triage-list">
   <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 6 SiteDirector instances (JUNO, CEPC, CMS, BES, LHCb, JUNOCloud).</span></div>
   <div><small>MIDDLEWARE CHAIN</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>Transfers, storage and site services — each with its own configs, logs, and source.</span></div>
-  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent recently completed a v9.0.24 deployment.</span></div>
+  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.24 deployment.</span></div>
 </div>
 
   </div>
@@ -134,7 +134,7 @@ Part one: dci-agent — how an AI operations assistant should grow, what it is, 
 layout: default
 ---
 
-# Four stages, one learning engine
+# Autonomy grows in four controlled stages
 
 <div class="four-cards mt-4">
   <div class="story-card">
@@ -151,54 +151,55 @@ layout: default
   </div>
   <div class="story-card">
     <h2>4 · Autopilots</h2>
-    <p>Full automation of routine operations — the direction, not today's claim.</p>
+    <p>Full automation across operations — a future goal, not today's claim.</p>
   </div>
 </div>
 
 <div class="takeaway mt-6">
-The engine of the climb is <strong>learning</strong>: after each conversation and operation, the agent — Hermes-based — summarizes what worked into a <strong>skill</strong>. As model strength and accumulated skills grow, the safe level of automation rises with them.
+The learning loop: Hermes can distill conversations and operations into <strong>reviewed skills</strong>. Greater model capability and accumulated knowledge make higher autonomy possible — <strong>not automatic</strong>.
 </div>
 
 
 <!--
 Timing: 1:20
 
-How should an AI assistant grow into an operations role? Four stages. Stage one: completely read-only — it analyzes, advises, raises alarms; humans decide everything. Stage two: it executes harmless operations, the routine and reversible work that eats administrator time. Stage three: critical operations, prepared and executed only with the administrator's consent. Stage four: full automation — that is the direction, not today's claim. And what moves a deployment up this ladder is not faith in the model: it is learning. The agent is Hermes-based; after each conversation and each operation it summarizes what worked into a skill. The more it accumulates, and the stronger the models get, the higher the safe level of automation.
+How should an AI assistant grow into an operations role? Four stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority.
 -->
 ---
 layout: default
 ---
 
-# dci-agent: one read-only view of the chain
+# dci-agent brings the DCI chain into one view
 
-```mermaid {scale: 0.58}
-flowchart LR
-    subgraph RO[Read-only NFS mounts · credentials sanitized]
-        direction LR
-        F1[DIRAC] --- F2[IHEPDIRAC] --- F3[FTS3] --- F4[grid-data] --- F5[ihep-T1-ce]
-    end
-    RO -->|configs · logs · source| A[dci-agent<br/>Hermes-based]
-    MCP[dci-grafana<br/>MCP] -->|monitoring queries| A
-    A -->|cronjob · periodic checks| R[Status reports]
-    UI[Feishu · Mattermost<br/>WebUI] <-->|chat| A
-```
-
-<div class="two-notes compact-notes mt-1">
-  <div><strong>How it sees</strong><br/>NFS mounts the configs, logs, and source of DIRAC, IHEPDIRAC, FTS3, grid-data and the T1 CE — all read-only, credentials fully sanitized; monitoring arrives through the dci-grafana MCP.</div>
-  <div><strong>How it is reached</strong><br/>Administrators talk to it through Feishu, Mattermost, or a web UI; a cronjob drives periodic status checks and reports.</div>
+<div class="architecture-map mt-2">
+  <div class="architecture-source"><strong>READ-ONLY NFS</strong><span>configs · logs · source code · credentials sanitized</span></div>
+  <div class="architecture-systems">
+    <span>DIRAC</span><span>IHEPDIRAC</span><span>FTS3</span><span>grid-data</span><span>ihep-T1-ce</span>
+  </div>
+  <div class="architecture-down">↓ <span>read-only evidence</span> ↓</div>
+  <div class="architecture-flow">
+    <div class="architecture-node"><small>MONITORING</small><strong>dci-grafana MCP</strong><span>metrics &amp; dashboards</span></div>
+    <b aria-hidden="true">→</b>
+    <div class="architecture-node architecture-agent"><small>HERMES-BASED</small><strong>dci-agent</strong><span>correlate · analyze · report</span></div>
+    <b aria-hidden="true">→</b>
+    <div class="architecture-node"><small>OUTPUT</small><strong>Status reports</strong><span>checks &amp; findings</span></div>
+  </div>
+  <div class="architecture-triggers"><span>↕ <strong>Feishu · Mattermost · WebUI</strong> — administrator chat</span><span><strong>cronjob</strong> → scheduled checks</span></div>
 </div>
+
+<div class="takeaway compact mt-2">The evidence mounts are <strong>read-only</strong>. Any operational write uses a separate, scoped MCP action path.</div>
 
 
 <!--
 Timing: 1:25
 
-The architecture. dci-agent is Hermes-based, and its foundation is boring on purpose: NFS mounts over the middleware servers, read-only, covering the configurations, the logs, and the source code of DIRAC, IHEPDIRAC, FTS3, grid-data, and the T1 computing element. Every credential in those files is sanitized before the agent sees anything. Monitoring comes in through the dci-grafana MCP service — dashboards and metrics as queryable tools. On the usage side: administrators reach it through Feishu, Mattermost, or a web UI, and a cronjob drives periodic checks that produce status reports. One agent, one view, many doors in.
+The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The dci-grafana MCP provides metrics and dashboard queries. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
 -->
 ---
 layout: default
 ---
 
-# Read-only and sanitized by construction
+# Evidence is read-only; actions have a separate path
 
 <div class="cols mt-2">
   <div>
@@ -209,7 +210,7 @@ layout: default
 - The evidence plane simply has <strong>no write path</strong> to the middleware
 
 <div class="takeaway compact mt-3">
-Worst case is a wrong answer — never a corrupted system.
+The NFS evidence path cannot modify mounted middleware files.
 </div>
 
   </div>
@@ -218,11 +219,11 @@ Worst case is a wrong answer — never a corrupted system.
 ## Sanitized before the model
 
 - <strong>All credentials sanitized</strong> — tokens, keys and passwords masked out of configs and logs
-- Content is sized and classified before entering any prompt
-- Humans always see the <strong>raw</strong> data; only the model reads the filtered copy
+- Sensitive values are filtered before reaching the model
+- Logs and source remain <strong>untrusted input</strong>, even after filtering
 
 <div class="takeaway compact mt-3">
-A crafted log line cannot steer the agent — injection-safe by construction.
+Sanitization reduces exposure; it does not replace approval and MCP-side controls.
 </div>
 
   </div>
@@ -232,13 +233,13 @@ A crafted log line cannot steer the agent — injection-safe by construction.
 <!--
 Timing: 1:00
 
-Two design decisions carry most of the safety. First, read-only is a property, not a policy: the NFS mounts are read-only, so the agent has no write path to the middleware at all. The worst it can do is be wrong, not destructive. Second, sanitization: every credential — tokens, keys, passwords — is masked out of configurations and logs before anything reaches the model. Content is sized and classified. Humans always see the raw data; only the model reads the filtered copy. A crafted log line cannot steer the agent. So how does it ever act? Through a very narrow door — but that is the second half of the talk.
+The evidence mounts are read-only, so reading a log or comparing a config cannot alter those mounted files. We sanitize credentials before the model sees them. But read-only mounts are not a universal safety guarantee: logs and source can still contain misleading instructions, and the agent has a separate MCP action path. We treat those inputs as untrusted and enforce write permissions at that separate boundary.
 -->
 ---
 layout: default
 ---
 
-# Driven by chat, and by the clock
+# One evidence plane serves chat and scheduled checks
 
 <div class="cols mt-2">
   <div>
@@ -277,7 +278,7 @@ Two ways to drive it. Interactively: an administrator asks, in Feishu, Mattermos
 layout: default
 ---
 
-# The agent deployed v9 in the test bed
+# The agent helped deploy v9.0.24 in the test bed
 
 <div class="cols mt-2">
   <div>
@@ -303,7 +304,7 @@ Production stays on <strong>v8.0.58</strong> — untouched.
 - Install pitfalls became <strong>documented steps</strong>, not repeated debugging
 
 <div class="status-stack tight mt-1">
-  <div><mdi-check-circle-outline /><span><strong>Test deployment completed</strong><br/>v9.0.24 on the isolated test host</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Test deployment largely complete</strong><br/>v9.0.24 on the isolated test host</span></div>
   <div><mdi-check-circle-outline /><span><strong>Reusable runbook</strong><br/>Each pitfall is a documented step for the next host</span></div>
 </div>
 
@@ -314,7 +315,7 @@ Production stays on <strong>v8.0.58</strong> — untouched.
 <!--
 Timing: 1:20
 
-The deployment result. We gave the agent operation permission in the test environment only, and it installed DIRAC v9.0.24 and basically completed the deployment. The point is not that installing DIRAC is magic — it is that the agent already knows the system: its configs, logs, and source are its home turf. Comparing a v8 configuration against v9 defaults, checking why a component will not start by reading its logs — that is exactly the cross-file reasoning agents are good at. The install pitfalls it worked through became documented steps, so the next host will not rediscover them. And production stays on v8.0.58, untouched. Now — the second half: the AI infrastructure that makes any of this safe.
+In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.24 and largely completed the deployment; production on v8.0.58 was not touched. Comparing v8 and v9 configuration and tracing startup problems through logs were particularly effective because the agent already had the DCI evidence in view. The pitfalls became reusable notes. Next, the infrastructure that defines which actions an agent may take.
 -->
 ---
 layout: section
@@ -332,7 +333,7 @@ Part two: the infrastructure underneath — MCP services on the read and write s
 layout: default
 ---
 
-# Read side: monitoring through MCP
+# Monitoring evidence reaches the agent through MCP
 
 <div class="cols mt-2">
   <div>
@@ -351,11 +352,11 @@ People and agents read the <strong>same evidence</strong> — no private data pa
   <div>
 
 <div class="dashboard-frame snapshot-frame">
-  <img src="/images/component-logs-snapshot.png" alt="Component Logs dashboard snapshot" />
+  <img :src="'images/component-logs-snapshot.png'" alt="Historical Component Logs snapshot showing log levels, rates and example entries" />
 </div>
 
 <div class="text-center mt-2">
-  <span class="muted">Snapshot</span> · <a href="https://dci-grafana.ihep.ac.cn/d/bfgu666p30xdsb/component-logs?orgId=1&from=1788912000000&to=1788998400000&timezone=browser&var-Category=$__all&var-Name=$__all&var-Level=$__all&kiosk"><mdi-open-in-new /> Open dashboard</a>
+  <span class="muted">Historical snapshot · Sep 2026</span> · <a href="https://dci-grafana.ihep.ac.cn/d/bfgu666p30xdsb/component-logs?orgId=1&from=1788912000000&to=1788998400000&timezone=browser&var-Category=$__all&var-Name=$__all&var-Level=$__all&kiosk"><mdi-open-in-new /> Open dashboard (login required)</a>
 </div>
 
   </div>
@@ -365,49 +366,47 @@ People and agents read the <strong>same evidence</strong> — no private data pa
 <!--
 Timing: 1:05
 
-The read side. Monitoring reaches the agent through the dci-grafana MCP: it can search dashboards, read the queries behind a panel, run Prometheus queries, and return rendered panel images. Underneath, the Grafana dashboards themselves are JSON in Git — thirty-one under five providers — so the agent can also compose them, with humans reviewing the diff. And the DIRAC component logs are centralized with one backend line, through ActiveMQ, Logstash and Elasticsearch. The view on the right is a snapshot of the live Component Logs dashboard — the same evidence people and the agent read, no private path for the model.
+The read side. The dci-grafana MCP lets the agent search dashboards and query monitoring. Our dashboard definitions are JSON in Git; human reviewers decide whether a proposed change is accepted. DIRAC logs are centralized through ActiveMQ, Logstash and Elasticsearch. On the right is a historical snapshot from September 2026, not a live view. The link opens the restricted dashboard for people with Grafana access; a public viewer can still see the evidence on this slide.
 -->
 ---
 layout: default
 ---
 
-# Write side: actions inside functions
+# MCP functions define what the agent can execute
 
-```mermaid {scale: 0.5}
-flowchart LR
-    A[dci-agent] -->|dedicated token · scope| M[MCP service]
-    M --> P1[internal function<br/>restart DIRAC component]
-    M --> P2[internal function<br/>restart FTS service]
-    P1 --> T1[middleware servers]
-    P2 --> T2[FTS]
-    SK[(Skills ·<br/>context gate)] -. when to call .-> A
-```
+<div class="action-flow mt-2">
+  <div><small>REQUEST</small><strong>dci-agent</strong><span>operational intent</span></div><b aria-hidden="true">→</b>
+  <div><small>IDENTITY</small><strong>scoped token</strong><span>allowed actions only</span></div><b aria-hidden="true">→</b>
+  <div><small>BOUNDARY</small><strong>MCP function</strong><span>predefined parameters</span></div><b aria-hidden="true">→</b>
+  <div><small>TARGET</small><strong>DIRAC / FTS</strong><span>specific service</span></div>
+</div>
+
+<div class="action-examples"><span>e.g. restart a selected DIRAC component</span><span>e.g. restart an FTS service</span></div>
 
 <div class="rule-list mt-3">
   <div><mdi-key-outline /><span><strong>Scoped tokens</strong> — the agent authenticates with a dedicated token whose scope names exactly what may be executed; nothing else is reachable.</span></div>
   <div><mdi-cube-outline /><span><strong>Operations are code, not prompts</strong> — "restart component X" is an internal function inside the MCP service; the agent cannot compose arbitrary shell commands.</span></div>
-  <div><mdi-book-open-variant-outline /><span><strong>Skills gate the context</strong> — the agent's skills define when calling an action MCP is appropriate at all; outside those scenarios it does not offer the action.</span></div>
+  <div><mdi-book-open-variant-outline /><span><strong>Skills guide the decision</strong> — they describe when to call a function; the token scope and MCP implementation enforce what is actually executable.</span></div>
 </div>
 
 
 <!--
 Timing: 1:20
 
-The write side. To let the agent act, we added action MCP services. The agent authenticates with a dedicated token, and the token's scope names exactly which operations are reachable — nothing else. The operations themselves are internal functions inside the MCP service: restart a DIRAC component, restart an FTS service. The agent cannot compose arbitrary shell commands — it can only invoke the whitelisted function. And the skills define the context in which calling the action is appropriate at all: outside those scenarios, the action is not offered. Three independent gates — scope, function boundary, skill context — bound the blast radius of any mistake. This is stage two and, with approval flows, stage three of the ladder from earlier.
+The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
 -->
 ---
 layout: default
 ---
 
-# Skills: memory that serves users too
+# Reviewed skills make experience reusable
 
-```mermaid {scale: 0.56}
-flowchart LR
-    A[Conversation<br/>or operation] --> B[Agent summarizes<br/>what worked]
-    B --> C[Human review<br/>of the write-up]
-    C -->|approved| D[Skill<br/>published]
-    D -.->|consulted on the<br/>next task| A
-```
+<div class="skill-flow mt-2">
+  <div><small>01 · DO</small><strong>Conversation<br/>or operation</strong></div><b aria-hidden="true">→</b>
+  <div><small>02 · DISTILL</small><strong>Agent summarizes<br/>what worked</strong></div><b aria-hidden="true">→</b>
+  <div><small>03 · REVIEW</small><strong>Human checks<br/>the write-up</strong></div><b aria-hidden="true">→</b>
+  <div><small>04 · REUSE</small><strong>Publish as<br/>a skill</strong></div>
+</div>
 
 <div class="two-notes compact-notes mt-3">
   <div><strong>For operations</strong><br/>DIRAC and job-operations skills, per-repository agent guides, and the v9 upgrade notes — each fix becomes a documented step the next session starts from.</div>
@@ -415,7 +414,7 @@ flowchart LR
 </div>
 
 <div class="takeaway mt-3">
-The same loop powers both: <strong>do, summarize, review, publish</strong>. Every skill makes the next task — ours or a user's — easier.
+The next session consults the reviewed skill; the agent need not rediscover the same procedure.
 </div>
 
 
@@ -428,13 +427,13 @@ Skills are how the system compounds. After a conversation or an operation, the a
 layout: default
 ---
 
-# Five rules that keep it safe
+# Five boundaries limit operational risk
 
 <div class="rule-list mt-3">
-  <div><mdi-check-circle-outline /><span><strong>The evidence plane is read-only by construction.</strong> NFS mounts over configs, logs and source — there is no write path from the agent to the middleware.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Everything the model reads is sanitized.</strong> Credentials, tokens and keys are masked before any prompt; humans keep the raw view.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>The NFS evidence plane is read-only.</strong> Configs, logs and source are mounted without a write path; actions use separate MCP functions.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Credentials are sanitized before the model.</strong> Tokens, keys and passwords are masked; source and logs remain untrusted input.</span></div>
   <div><mdi-check-circle-outline /><span><strong>Actions are whitelisted functions behind scoped tokens.</strong> The agent invokes predefined operations — it cannot compose arbitrary commands.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Skills gate when actions may be invoked.</strong> Outside the defined scenarios, the action is not offered to the model at all.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Skills guide when to invoke an action.</strong> Authorization is enforced by the MCP scope and function, not by the skill text.</span></div>
   <div><mdi-check-circle-outline /><span><strong>Knowledge is written to be consulted.</strong> Notes and skills are part of the workflow — they are what the next session, or the next user, reads first.</span></div>
 </div>
 
@@ -442,7 +441,7 @@ layout: default
 <!--
 Timing: 1:00
 
-Five rules hold the system together. The evidence plane is read-only by construction. Everything the model reads is sanitized. Actions are whitelisted functions behind scoped tokens. Skills gate when actions may be invoked. And knowledge is written to be consulted. None of this required a new platform — disciplines, applied to ordinary mounts, tokens, functions, and documents.
+Five boundaries hold the story together: read-only evidence mounts, credential sanitization, scoped tokens, predefined functions, and reviewed procedural knowledge. The skill tells the agent when to consider an action, but authorization lives in the MCP service; approval for dangerous actions remains a separate requirement. These are distinct controls, not five interchangeable promises.
 -->
 ---
 layout: default
@@ -489,24 +488,24 @@ The roadmap. Horizontal: widen the view — more middleware mounts, log early wa
 layout: default
 ---
 
-# Summary
+# One view, bounded actions, reusable knowledge
 
 <div class="three-cards takeaway-cards mt-6">
   <div class="story-card"><strong>1</strong><h2>One view</h2><p>dci-agent sees the whole chain — configs, logs, source, monitoring — read-only and sanitized, in chat or on a schedule.</p></div>
-  <div class="story-card"><strong>2</strong><h2>Staged autonomy</h2><p>From read-only analysis to approved actions: each step up the ladder is earned by learning, not by trust.</p></div>
+  <div class="story-card"><strong>2</strong><h2>Staged autonomy</h2><p>From read-only analysis to approved actions: each step needs stronger controls and evidence.</p></div>
   <div class="story-card"><strong>3</strong><h2>Compounding</h2><p>Skills serve administrators and users alike — every conversation and fix makes the next task easier.</p></div>
 </div>
 
 <div class="closing-line mt-10">
-The goal is not an autopilot.<br/>
-It is an <strong>operator — and a user — with a much longer reach</strong>.
+Not an autopilot today.<br/>
+A <strong>longer reach for operators and users</strong> — with a path toward earned autonomy.
 </div>
 
 
 <!--
 Timing: 0:50
 
-Three takeaways. One view: the agent sees the whole chain, read-only and sanitized, reachable in chat or on a schedule. Staged autonomy: from analysis to approved actions, each step earned by learning, not trust. And compounding: skills serve administrators and users alike. The goal is not an autopilot — it is an operator, and a user, with a much longer reach. Thank you.
+Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions, with stronger controls before advancing to more autonomy. And reviewed skills serving both administrators and users. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
 -->
 ---
 layout: cover

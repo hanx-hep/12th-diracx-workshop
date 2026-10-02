@@ -61,6 +61,163 @@
   margin: 0 auto;
 }
 
+/* Fixed-canvas diagrams keep labels readable instead of shrinking the whole SVG. */
+.architecture-map {
+  padding: 0.75rem 1rem 0.6rem;
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 0.8rem;
+  background: rgba(49, 50, 68, 0.46);
+  text-align: center;
+}
+
+.architecture-source {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  color: var(--ctp-subtext);
+  font-size: 0.98rem;
+}
+
+.architecture-source strong,
+.architecture-node small,
+.action-flow small,
+.skill-flow small {
+  color: var(--ctp-teal);
+  font-weight: 750;
+  letter-spacing: 0.06em;
+}
+
+.architecture-systems {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.65rem;
+}
+
+.architecture-systems span {
+  padding: 0.6rem 0.3rem;
+  border: 1px solid rgba(148, 226, 213, 0.55);
+  border-radius: 0.45rem;
+  background: rgba(148, 226, 213, 0.1);
+  font-weight: 650;
+}
+
+.architecture-down {
+  padding: 0.15rem 0;
+  color: var(--ctp-teal);
+  font-weight: 700;
+}
+
+.architecture-down span {
+  font-size: 0.9rem;
+  color: var(--ctp-subtext);
+  font-weight: 500;
+}
+
+.architecture-flow,
+.action-flow,
+.skill-flow {
+  display: grid;
+  align-items: center;
+  grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr) 2rem minmax(0, 1fr);
+  gap: 0.4rem;
+}
+
+.architecture-flow > b,
+.action-flow > b,
+.skill-flow > b {
+  text-align: center;
+  font-size: 1.6rem;
+  color: var(--ctp-teal);
+}
+
+.architecture-node,
+.action-flow > div,
+.skill-flow > div {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  min-height: 5.5rem;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 0.55rem;
+  background: var(--ctp-surface0);
+}
+
+.architecture-node strong,
+.action-flow strong,
+.skill-flow strong {
+  color: var(--ctp-text);
+  font-size: 1.16rem;
+}
+
+.architecture-node span,
+.action-flow span {
+  font-size: 0.9rem;
+  color: var(--ctp-subtext);
+}
+
+.architecture-agent {
+  border-color: var(--ctp-blue);
+  background: rgba(137, 180, 250, 0.16);
+}
+
+.architecture-triggers {
+  display: flex;
+  justify-content: space-around;
+  gap: 0.8rem;
+  margin-top: 0.45rem;
+  color: var(--ctp-subtext);
+  font-size: 0.92rem;
+}
+
+.architecture-triggers strong {
+  color: var(--ctp-blue);
+}
+
+.action-flow,
+.skill-flow {
+  grid-template-columns: minmax(0, 1fr) 1.5rem minmax(0, 1fr) 1.5rem minmax(0, 1fr) 1.5rem minmax(0, 1fr);
+  text-align: center;
+}
+
+.action-flow > div {
+  min-height: 6.5rem;
+  border-color: rgba(203, 166, 247, 0.45);
+}
+
+.action-flow small {
+  color: var(--ctp-mauve);
+}
+
+.action-examples {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+  font-size: 0.93rem;
+  color: var(--ctp-subtext);
+}
+
+.action-examples span::before {
+  content: '• ';
+  color: var(--ctp-mauve);
+}
+
+.skill-flow > div {
+  min-height: 6.2rem;
+  border-color: rgba(166, 227, 161, 0.42);
+}
+
+.skill-flow small {
+  color: var(--ctp-green);
+}
+
+.skill-flow > b {
+  color: var(--ctp-green);
+}
+
 .lead {
   font-size: 1.55rem;
   line-height: 1.35;
@@ -359,15 +516,15 @@
 }
 
 .snapshot-frame {
-  height: 330px;
+  height: 230px;
   margin-top: 0.5rem;
 }
 
 .snapshot-frame img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top;
+  object-fit: contain;
+  background: #fff;
   display: block;
 }
 
@@ -517,13 +674,13 @@
 }
 
 .four-cards .story-card h2 {
-  font-size: 1.05rem;
+  font-size: 1.16rem;
   margin: 0.3rem 0 0.4rem;
 }
 
 .four-cards .story-card p {
-  font-size: 0.85rem;
-  line-height: 1.35;
+  font-size: 0.98rem;
+  line-height: 1.4;
 }
 
 .rule-list {
