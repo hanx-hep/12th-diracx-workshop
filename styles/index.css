@@ -124,7 +124,12 @@
 }
 
 .architecture-down {
-  padding: 0.15rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  height: 3.6rem;
   color: var(--ctp-teal);
   font-weight: 700;
 }
@@ -133,6 +138,31 @@
   font-size: 0.9rem;
   color: var(--ctp-subtext);
   font-weight: 500;
+}
+
+.architecture-down i,
+.architecture-chat i {
+  position: relative;
+  display: block;
+  width: 0;
+  border-left: 2px solid var(--ctp-teal);
+}
+
+.architecture-down i {
+  height: 1.8rem;
+}
+
+.architecture-down i::after,
+.architecture-chat i::after {
+  position: absolute;
+  bottom: 0;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--ctp-teal);
+  border-bottom: 2px solid var(--ctp-teal);
+  transform: rotate(45deg);
+  content: '';
 }
 
 .architecture-flow,
@@ -180,21 +210,58 @@
 }
 
 .architecture-agent {
+  min-height: 6.2rem;
   border-color: var(--ctp-blue);
   background: rgba(137, 180, 250, 0.16);
 }
 
 .architecture-triggers {
-  display: flex;
-  justify-content: space-around;
-  gap: 0.8rem;
-  margin-top: 0.45rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2rem minmax(0, 1fr) 2rem minmax(0, 1fr);
+  gap: 0.4rem;
+  align-items: end;
+  min-height: 4.4rem;
   color: var(--ctp-subtext);
   font-size: 0.92rem;
 }
 
 .architecture-triggers strong {
   color: var(--ctp-blue);
+}
+
+.architecture-chat {
+  grid-column: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.12rem;
+  white-space: nowrap;
+}
+
+.architecture-chat i {
+  height: 2.3rem;
+  margin-bottom: 0.15rem;
+}
+
+.architecture-chat i::before {
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: 8px;
+  height: 8px;
+  border-left: 2px solid var(--ctp-teal);
+  border-top: 2px solid var(--ctp-teal);
+  transform: rotate(45deg);
+  content: '';
+}
+
+.architecture-chat span {
+  font-size: 0.78rem;
+}
+
+.architecture-schedule {
+  grid-column: 5;
+  padding-bottom: 0.6rem;
 }
 
 .action-flow,

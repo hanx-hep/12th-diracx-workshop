@@ -176,7 +176,7 @@ layout: default
   <div class="architecture-systems">
     <span>DIRAC</span><span>IHEPDIRAC</span><span>FTS3</span><span>grid-data</span><span>ihep-T1-ce</span>
   </div>
-  <div class="architecture-down">↓ <span>read-only evidence</span> ↓</div>
+  <div class="architecture-down"><span>read-only evidence</span><i aria-hidden="true"></i></div>
   <div class="architecture-flow">
     <div class="architecture-node"><small>MONITORING</small><strong>dci-grafana MCP</strong><span>metrics &amp; dashboards</span></div>
     <b aria-hidden="true">→</b>
@@ -184,7 +184,10 @@ layout: default
     <b aria-hidden="true">→</b>
     <div class="architecture-node"><small>OUTPUT</small><strong>Status reports</strong><span>checks &amp; findings</span></div>
   </div>
-  <div class="architecture-triggers"><span>↕ <strong>Feishu · Mattermost · WebUI</strong> — administrator chat</span><span><strong>cronjob</strong> → scheduled checks</span></div>
+  <div class="architecture-triggers">
+    <div class="architecture-chat"><i aria-hidden="true"></i><strong>Feishu · Mattermost · WebUI</strong><span>administrator chat</span></div>
+    <div class="architecture-schedule"><strong>cronjob</strong> → scheduled checks</div>
+  </div>
 </div>
 
 <div class="takeaway compact mt-2">The evidence mounts are <strong>read-only</strong>. Any operational write uses a separate, scoped MCP action path.</div>
