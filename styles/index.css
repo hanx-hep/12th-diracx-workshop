@@ -48,6 +48,27 @@
   align-items: start;
 }
 
+.agent-demo {
+  text-align: center;
+}
+
+.agent-demo video {
+  display: block;
+  width: auto;
+  max-width: 100%;
+  max-height: 400px;
+  margin: 0 auto;
+  border: 1px solid var(--ctp-surface1);
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.32);
+}
+
+.agent-demo-caption {
+  margin-top: 0.4rem;
+  color: var(--ctp-subtext);
+  font-size: 0.8rem;
+}
+
 .mermaid {
   display: flex;
   justify-content: center;

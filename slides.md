@@ -239,33 +239,31 @@ The evidence mounts are read-only, so reading a log or comparing a config cannot
 layout: default
 ---
 
-# One evidence plane serves chat and scheduled checks
+# Chat and scheduled checks share one evidence plane
 
 <div class="cols mt-2">
   <div>
 
-## Interactive — administrators ask
+## Two ways to start a task
 
 <div class="triage-list">
-  <div><small>ASK</small><strong>"What is the transfer status for site X?"</strong><span>It pulls FTS3 logs, DIRAC data-operation views, and answers with sources.</span></div>
-  <div><small>ASSIST</small><strong>"Help me triage this failure"</strong><span>It correlates logs, configs and source across systems, and drafts a diagnosis for review.</span></div>
+  <div><small>CHAT</small><strong>An administrator asks</strong><span>Check a transfer or diagnose a failure using FTS3, DIRAC and other evidence; answer with sources.</span></div>
+  <div><small>SCHEDULE</small><strong>A cronjob starts regular checks</strong><span>Summarize service status and flag unusual findings for an administrator to review.</span></div>
+</div>
+
+<div class="takeaway compact mt-3">
+Reachable through Feishu, Mattermost and the web UI — the same agent, the same evidence plane; only the <strong>trigger</strong> differs: a message, or the clock.
 </div>
 
   </div>
   <div>
 
-## Scheduled — it runs itself
-
-<div class="triage-list">
-  <div><small>PERIODIC</small><strong>Cronjob status checks</strong><span>Periodic aggregation across the chain; summaries of the running state.</span></div>
-  <div><small>ON ANOMALY</small><strong>Analysis for review</strong><span>When something looks off, the analysis is drafted and flagged — the administrator judges.</span></div>
+<div class="agent-demo">
+  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="Screen recording of the DCI operations assistant dashboard and AI chat"></video>
+  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent dashboard and chat · screen recording (muted)</div>
 </div>
 
   </div>
-</div>
-
-<div class="takeaway mt-4">
-Reachable through Feishu, Mattermost and the web UI — the same agent, the same evidence plane; only the <strong>trigger</strong> differs: a message, or the clock.
 </div>
 
 
