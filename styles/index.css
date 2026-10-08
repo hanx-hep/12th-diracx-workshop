@@ -48,6 +48,14 @@
   align-items: start;
 }
 
+.dci-agent-icon {
+  display: inline-block;
+  width: 1.3em;
+  height: 1.3em;
+  margin-right: 0.28em;
+  vertical-align: -0.3em;
+}
+
 .agent-demo {
   text-align: center;
 }

@@ -2,6 +2,7 @@
 layout: cover
 routerMode: hash
 theme: '@ktym4a/slidev-theme-ktym4a'
+favicon: ./images/dci-agent-icon.svg
 lineNumbers: true
 fonts: false
 title: AI-Assisted DIRAC Deployment and Operations at IHEP
@@ -54,7 +55,7 @@ layout: default
 - Tool ecosystems matured — <strong>MCP</strong>, agent frameworks, skill libraries
 
 <div class="takeaway compact mt-3">
-At IHEP we deployed <strong>dci-agent</strong> to bring cross-system evidence into everyday operations.
+At IHEP we deployed <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-icon" alt="" /><strong>dci-agent</strong> to bring cross-system evidence into everyday operations.
 </div>
 
   </div>
