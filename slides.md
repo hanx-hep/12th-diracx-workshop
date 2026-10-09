@@ -280,7 +280,7 @@ Two ways to drive it. Interactively: an administrator asks, in Feishu, Mattermos
 layout: default
 ---
 
-# The agent helped deploy v9.0.24 in the test bed
+# The agent helped deploy v9.0.26 in the test bed
 
 <div class="cols mt-2">
   <div>
@@ -288,7 +288,7 @@ layout: default
 ## What the agent did
 
 - Given <strong>operation permission in the test environment only</strong>
-- Installed <strong>DIRAC v9.0.24</strong> and basically completed the deployment
+- Installed <strong>DIRAC v9.0.26</strong> and basically completed the deployment
 - The speed came from understanding: <strong>config comparison</strong> and <strong>log inspection</strong> across the DCI stack, on demand
 - Every step recorded as runbook-style notes
 
@@ -306,7 +306,7 @@ Production stays on <strong>v8.0.58</strong> — untouched.
 - Install pitfalls became <strong>documented steps</strong>, not repeated debugging
 
 <div class="status-stack tight mt-1">
-  <div><mdi-check-circle-outline /><span><strong>Test deployment largely complete</strong><br/>v9.0.24 on the isolated test host</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Test deployment largely complete</strong><br/>v9.0.26 on the isolated test host</span></div>
   <div><mdi-check-circle-outline /><span><strong>Reusable runbook</strong><br/>Each pitfall is a documented step for the next host</span></div>
 </div>
 
@@ -317,7 +317,7 @@ Production stays on <strong>v8.0.58</strong> — untouched.
 <!--
 Timing: 1:20
 
-In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.24 and largely completed the deployment; production on v8.0.58 was not touched. Comparing v8 and v9 configuration and tracing startup problems through logs were particularly effective because the agent already had the DCI evidence in view. The pitfalls became reusable notes. Next, the infrastructure that defines which actions an agent may take.
+In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.26 and largely completed the deployment; production on v8.0.58 was not touched. Comparing v8 and v9 configuration and tracing startup problems through logs were particularly effective because the agent already had the DCI evidence in view. The pitfalls became reusable notes. Next, the infrastructure that defines which actions an agent may take.
 -->
 ---
 layout: section
