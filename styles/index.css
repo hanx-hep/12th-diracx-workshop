@@ -137,7 +137,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.25rem;
-  height: 3.6rem;
+  height: 3.9rem;
+  margin: 0.1rem 0;
   color: var(--ctp-teal);
   font-weight: 700;
 }
@@ -157,7 +158,7 @@
 }
 
 .architecture-down i {
-  height: 1.8rem;
+  height: 1.4rem;
 }
 
 .architecture-down i::after,
@@ -247,8 +248,8 @@
 }
 
 .architecture-chat i {
-  height: 2.3rem;
-  margin-bottom: 0.15rem;
+  height: 1.9rem;
+  margin: 0.25rem 0 0.15rem;
 }
 
 .architecture-chat i::before {
@@ -770,8 +771,9 @@
 }
 
 .four-cards .story-card h2 {
-  font-size: 1.16rem;
-  margin: 0.3rem 0 0.4rem;
+  font-size: 1.02rem !important;
+  margin: 0.3rem 0 0.4rem !important;
+  white-space: nowrap;
 }
 
 .four-cards .story-card p {

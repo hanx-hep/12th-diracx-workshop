@@ -93,7 +93,7 @@ layout: default
 <div class="triage-list">
   <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 6 SiteDirector instances (JUNO, CEPC, CMS, BES, LHCb, JUNOCloud).</span></div>
   <div><small>MIDDLEWARE CHAIN</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>Transfers, storage and site services — each with its own configs, logs, and source.</span></div>
-  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.24 deployment.</span></div>
+  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.26 deployment.</span></div>
 </div>
 
   </div>
