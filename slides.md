@@ -5,7 +5,7 @@ theme: '@ktym4a/slidev-theme-ktym4a'
 favicon: ./images/dci-agent-icon.svg
 lineNumbers: true
 fonts: false
-title: AI-Assisted DIRAC Deployment and Operations at IHEP
+title: IHEP 的 AI 辅助 DIRAC 部署与运维（中文对照版）
 titleTemplate: '%s - Xiao Han'
 mermaid:
   theme: dark
@@ -18,17 +18,17 @@ themeConfig:
   baseColor: sky
 ---
 
-# AI-Assisted DIRAC Deployment<br/>and Operations at IHEP
+# AI 辅助的 DIRAC 部署<br/>与运维 · IHEP
 
-#### dci-agent, staged autonomy, MCP and skills
-
-<br>
-
-**Xiao Han** on behalf of the IHEP DCI Group · <a href="mailto:hanx@ihep.ac.cn">hanx@ihep.ac.cn</a>
+#### dci-agent · 分阶段自主 · MCP 与技能
 
 <br>
 
-**The 12th DIRAC(X) Users' Workshop** · 2026 · *IHEP, Beijing*
+**Xiao Han** 代表 IHEP DCI 组 · <a href="mailto:hanx@ihep.ac.cn">hanx@ihep.ac.cn</a>
+
+<br>
+
+**第 12 届 DIRAC(X) 用户研讨会** · 2026 · *IHEP，北京*
 
 <a href="https://indico.cern.ch/event/1588323" class="ns-c-iconlink"><mdi-link-variant /> Workshop Indico</a>
 
@@ -42,33 +42,33 @@ Good morning. I am Xiao Han, from the IHEP DCI Group. AI models keep getting str
 layout: default
 ---
 
-# A stronger AI now helps operate the DCI
+# 更强的 AI 正在参与 DCI 运维
 
 <div class="cols mt-2">
   <div>
 
-## Why now
+## 为什么是现在
 
-- Models are <strong>stronger</strong> — better reasoning over configs, logs, and code
-- They can <strong>reason across our stack</strong> — DIRAC, FTS, and grid middleware
-- Tool ecosystems matured — <strong>MCP</strong>, agent frameworks, skill libraries
+- 模型更<strong>强大</strong> — 对配置、日志和代码的推理更好
+- 能<strong>跨系统推理</strong> — DIRAC、FTS 与网格中间件
+- 工具生态成熟 — <strong>MCP</strong>、agent 框架、技能库
 
 <div class="takeaway compact mt-3">
-At IHEP we deployed <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-icon" alt="" /><strong>dci-agent</strong> to bring cross-system evidence into everyday operations.
+在 IHEP，我们部署了 <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-icon" alt="" /><strong>dci-agent</strong>，把跨系统的证据引入日常运维。
 </div>
 
   </div>
   <div>
 
-## What we ask of it
+## 我们对它的要求
 
-- <strong>See the chain</strong> — sanitized configs, logs, source, and monitoring
-- <strong>Answer and report</strong> — on demand in chat, and on a schedule
-- <strong>Help deploy</strong> — it largely completed a DIRAC v9 test deployment
-- <strong>Stay safe</strong> — read-only by construction; actions only through whitelisted MCP functions
+- <strong>看清链路</strong> — 脱敏后的配置、日志、源码与监控
+- <strong>回答与报告</strong> — 聊天按需回答，也可定时执行
+- <strong>协助部署</strong> — 基本完成了 DIRAC v9 测试部署
+- <strong>保持安全</strong> — 构造上只读；操作只能通过白名单 MCP 函数
 
 <div class="takeaway compact mt-3">
-Start with operations; then show the MCP and skills behind them.
+先讲运维，再讲背后的 MCP 与技能。
 </div>
 
   </div>
@@ -84,29 +84,29 @@ Why this talk now? Models reason better over configs, logs and code, and MCP and
 layout: default
 ---
 
-# DCI operations cross multiple systems
+# DCI 运维横跨多个系统
 
 <div class="cols mt-2">
   <div>
 
 <div class="triage-list">
-  <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 6 SiteDirector instances (JUNO, CEPC, CMS, BES, LHCb, JUNOCloud).</span></div>
-  <div><small>MIDDLEWARE CHAIN</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>Transfers, storage and site services — each with its own configs, logs, and source.</span></div>
-  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.26 deployment.</span></div>
+  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 60+ 组件；6 个 SiteDirector 实例（JUNO、CEPC、CMS、BES、LHCb、JUNOCloud）。</span></div>
+  <div><small>中间件链</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>传输、存储与站点服务 — 各自有配置、日志与源码。</span></div>
+  <div><small>准备中</small><strong>v9 迁移基线</strong><span>测试主机上 agent 已基本完成 v9.0.26 部署。</span></div>
 </div>
 
   </div>
   <div>
 
-The daily work is four streams:
+日常工作分四条线：
 
-- **Deploy** — version upgrades, component installs, config changes
-- **Watch** — metrics, availability probes, dashboards
-- **Diagnose** — component logs, transfer chains, cross-system traces
-- **Record** — runbooks, install notes, the knowledge the next shift needs
+- **部署** — 版本升级、组件安装、配置变更
+- **监控** — 指标、可用性探测、仪表盘
+- **诊断** — 组件日志、传输链路、跨系统追踪
+- **沉淀** — 运行手册、安装笔记、下一次值班需要的知识
 
 <div class="takeaway compact mt-4">
-A fault's symptom and its cause often live on <strong>different systems</strong> — exactly where an agent with one read-only view helps.
+故障的现象和根源往往在<strong>不同系统</strong>上 — 这正是只有一个只读视图的 agent 发挥作用的地方。
 </div>
 
   </div>
@@ -122,7 +122,7 @@ Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, 
 layout: section
 ---
 
-# 1 · Operate: the dci-agent
+# 1 · 运维：dci-agent
 
 
 <!--
@@ -134,29 +134,29 @@ Part one: dci-agent — how an AI operations assistant should grow, what it is, 
 layout: default
 ---
 
-# Autonomy grows in four controlled stages
+# 自主能力分四个受控阶段
 
 <div class="four-cards mt-4">
   <div class="story-card">
-    <h2>1 · Analyzes</h2>
-    <p>Completely read-only: advice, alarms, first-pass diagnosis — evidence cited, humans decide.</p>
+    <h2>1 · 只读分析</h2>
+    <p>完全只读：建议、告警、初步诊断 — 给出依据，人来决策。</p>
   </div>
   <div class="story-card">
-    <h2>2 · Assists</h2>
-    <p>Executes harmless operations — the routine, reversible work that burdens administrators.</p>
+    <h2>2 · 协助操作</h2>
+    <p>执行无害操作 — 重复、可逆、困扰管理员的日常工作。</p>
   </div>
   <div class="story-card">
-    <h2>3 · Acts, approved</h2>
-    <p>Critical operations prepared and executed only with the administrator's consent.</p>
+    <h2>3 · 经批准执行</h2>
+    <p>关键操作先准备，必须在管理员同意后才执行。</p>
   </div>
   <div class="story-card">
-    <h2>4 · Autopilots</h2>
-    <p>Full automation across operations — a future goal, not today's claim.</p>
+    <h2>4 · 自动驾驶</h2>
+    <p>全面自动化 — 未来目标，不是今天的现状。</p>
   </div>
 </div>
 
 <div class="takeaway mt-6">
-The learning loop: Hermes can distill conversations and operations into <strong>reviewed skills</strong>. Greater model capability and accumulated knowledge make higher autonomy possible — <strong>not automatic</strong>.
+学习闭环：Hermes 可以把对话和操作沉淀为<strong>经审核的技能</strong>。更强的模型和积累的知识让更高自主成为可能 — <strong>不是自动获得</strong>。
 </div>
 
 
@@ -169,28 +169,28 @@ How should an AI assistant grow into an operations role? Four stages: read-only 
 layout: default
 ---
 
-# dci-agent brings the DCI chain into one view
+# dci-agent 把 DCI 链路纳入一个视图
 
 <div class="architecture-map mt-2">
-  <div class="architecture-source"><strong>READ-ONLY NFS</strong><span>configs · logs · source code · credentials sanitized</span></div>
+  <div class="architecture-source"><strong>只读 NFS</strong><span>配置 · 日志 · 源码 · 凭据已脱敏</span></div>
   <div class="architecture-systems">
     <span>DIRAC</span><span>IHEPDIRAC</span><span>FTS3</span><span>grid-data</span><span>ihep-T1-ce</span>
   </div>
-  <div class="architecture-down"><span>read-only evidence</span><i aria-hidden="true"></i></div>
+  <div class="architecture-down"><span>只读证据</span><i aria-hidden="true"></i></div>
   <div class="architecture-flow">
-    <div class="architecture-node"><small>MONITORING</small><strong>dci-grafana MCP</strong><span>metrics &amp; dashboards</span></div>
+    <div class="architecture-node"><small>监控</small><strong>dci-grafana MCP</strong><span>指标与仪表盘</span></div>
     <b aria-hidden="true">→</b>
-    <div class="architecture-node architecture-agent"><small>HERMES-BASED</small><strong>dci-agent</strong><span>correlate · analyze · report</span></div>
+    <div class="architecture-node architecture-agent"><small>基于 Hermes</small><strong>dci-agent</strong><span>关联 · 分析 · 报告</span></div>
     <b aria-hidden="true">→</b>
-    <div class="architecture-node"><small>OUTPUT</small><strong>Status reports</strong><span>checks &amp; findings</span></div>
+    <div class="architecture-node"><small>输出</small><strong>状态报告</strong><span>检查与发现</span></div>
   </div>
   <div class="architecture-triggers">
-    <div class="architecture-chat"><i aria-hidden="true"></i><strong>Feishu · Mattermost · WebUI</strong><span>administrator chat</span></div>
-    <div class="architecture-schedule"><strong>cronjob</strong> → scheduled checks</div>
+    <div class="architecture-chat"><i aria-hidden="true"></i><strong>飞书 · Mattermost · WebUI</strong><span>管理员对话</span></div>
+    <div class="architecture-schedule"><strong>cronjob</strong> → 定时检查</div>
   </div>
 </div>
 
-<div class="takeaway compact mt-2">The evidence mounts are <strong>read-only</strong>. Any operational write uses a separate, scoped MCP action path.</div>
+<div class="takeaway compact mt-2">证据挂载是<strong>只读</strong>的。任何运维写入都走单独的、受限的 MCP 操作路径。</div>
 
 
 <!--
@@ -202,31 +202,31 @@ The architecture. Read-only NFS mounts bring sanitized configurations, logs and 
 layout: default
 ---
 
-# Evidence is read-only; actions have a separate path
+# 证据只读；操作走单独路径
 
 <div class="cols mt-2">
   <div>
 
-## Read-only is a property, not a policy
+## 只读是构造属性，不是口头承诺
 
-- NFS mounts are <strong>read-only</strong> — configs, logs, and source cannot be written
-- The evidence plane simply has <strong>no write path</strong> to the middleware
+- NFS 挂载<strong>只读</strong> — 配置、日志、源码不可写
+- 证据面到中间件<strong>没有写路径</strong>
 
 <div class="takeaway compact mt-3">
-The NFS evidence path cannot modify mounted middleware files.
+NFS 证据路径无法修改挂载的中间件文件。
 </div>
 
   </div>
   <div>
 
-## Sanitized before the model
+## 模型看到之前先脱敏
 
-- <strong>All credentials sanitized</strong> — tokens, keys and passwords masked out of configs and logs
-- Sensitive values are filtered before reaching the model
-- Logs and source remain <strong>untrusted input</strong>, even after filtering
+- <strong>所有凭据脱敏</strong> — token、密钥、密码从配置与日志中屏蔽
+- 敏感值在到达模型前被过滤
+- 即使过滤后，日志与源码仍是<strong>不可信输入</strong>
 
 <div class="takeaway compact mt-3">
-Sanitization reduces exposure; it does not replace approval and MCP-side controls.
+脱敏降低暴露；不能替代审批和 MCP 侧控制。
 </div>
 
   </div>
@@ -242,28 +242,28 @@ The evidence mounts are read-only, so reading a log or comparing a config cannot
 layout: default
 ---
 
-# Chat and scheduled checks share one evidence plane
+# 聊天与定时检查共享同一证据面
 
 <div class="cols mt-2">
   <div>
 
-## Two ways to start a task
+## 两种启动方式
 
 <div class="triage-list">
-  <div><small>CHAT</small><strong>An administrator asks</strong><span>Check a transfer or diagnose a failure using FTS3, DIRAC and other evidence; answer with sources.</span></div>
-  <div><small>SCHEDULE</small><strong>A cronjob starts regular checks</strong><span>Summarize service status and flag unusual findings for an administrator to review.</span></div>
+  <div><small>对话</small><strong>管理员提问</strong><span>用 FTS3、DIRAC 等证据检查传输或诊断故障；回答附来源。</span></div>
+  <div><small>定时</small><strong>cronjob 定期检查</strong><span>汇总服务状态，把异常发现交给管理员复核。</span></div>
 </div>
 
 <div class="takeaway compact mt-3">
-Reachable through Feishu, Mattermost and the web UI — the same agent, the same evidence plane; only the <strong>trigger</strong> differs: a message, or the clock.
+可通过飞书、Mattermost 和 Web UI 访问 — 同一个 agent，同一个证据面；区别只是<strong>触发方式</strong>：一条消息，或时钟。
 </div>
 
   </div>
   <div>
 
 <div class="agent-demo">
-  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="Screen recording of the DCI operations assistant dashboard and AI chat"></video>
-  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent dashboard and chat · screen recording (muted)</div>
+  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="DCI 运维助手仪表盘与 AI 对话的屏幕录制"></video>
+  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent 仪表盘与对话 · 屏幕录制（静音）</div>
 </div>
 
   </div>
@@ -279,34 +279,34 @@ Two ways to drive it. Interactively: an administrator asks, in Feishu, Mattermos
 layout: default
 ---
 
-# The agent helped deploy v9.0.26 in the test bed
+# agent 在测试环境部署了 v9.0.26
 
 <div class="cols mt-2">
   <div>
 
-## What the agent did
+## agent 做了什么
 
-- Given <strong>operation permission in the test environment only</strong>
-- Installed <strong>DIRAC v9.0.26</strong> and basically completed the deployment
-- The speed came from understanding: <strong>config comparison</strong> and <strong>log inspection</strong> across the DCI stack, on demand
-- Every step recorded as runbook-style notes
+- 仅在<strong>测试环境获得操作权限</strong>
+- 安装 <strong>DIRAC v9.0.26</strong>，基本完成部署
+- 速度来自理解：按需对整个 DCI 栈做<strong>配置对比</strong>和<strong>日志检查</strong>
+- 每一步都记录为运行手册式笔记
 
 <div class="takeaway compact mt-1">
-Production stays on <strong>v8.0.58</strong> — untouched.
+生产保持 <strong>v8.0.58</strong> — 未受影响。
 </div>
 
   </div>
   <div>
 
-## Why it worked
+## 为什么可行
 
-- The agent already <strong>knows the DCI system</strong>: configs, logs, and source are its home turf
-- v8-vs-v9 <strong>config comparison</strong> is exactly its kind of cross-file reasoning
-- Install pitfalls became <strong>documented steps</strong>, not repeated debugging
+- agent 本来就<strong>熟悉 DCI 系统</strong>：配置、日志、源码是它的主场
+- v8 对比 v9 的<strong>配置比较</strong>正是它擅长的跨文件推理
+- 安装的坑变成<strong>文档化步骤</strong>，不再重复调试
 
 <div class="status-stack tight mt-1">
-  <div><mdi-check-circle-outline /><span><strong>Test deployment largely complete</strong><br/>v9.0.26 on the isolated test host</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Reusable runbook</strong><br/>Each pitfall is a documented step for the next host</span></div>
+  <div><mdi-check-circle-outline /><span><strong>测试部署基本完成</strong><br/>v9.0.26（隔离测试主机）</span></div>
+  <div><mdi-check-circle-outline /><span><strong>可复用运行手册</strong><br/>每个坑都是下一台主机的文档化步骤</span></div>
 </div>
 
   </div>
@@ -322,7 +322,7 @@ In the isolated test environment we gave the agent operation permission. It inst
 layout: section
 ---
 
-# 2 · AI infrastructure: MCP and skills
+# 2 · AI 基础设施：MCP 与技能
 
 
 <!--
@@ -334,30 +334,30 @@ Part two: the infrastructure underneath — MCP services on the read and write s
 layout: default
 ---
 
-# Monitoring evidence reaches the agent through MCP
+# 监控证据通过 MCP 到达 agent
 
 <div class="cols mt-2">
   <div>
 
-## One queryable evidence layer
+## 一个可查询的证据层
 
-- **dci-grafana MCP** — the agent searches dashboards, reads panel queries, runs Prometheus queries, returns rendered panels
-- **31 dashboards as Git JSON** — five provisioning providers, 30 s sync; the agent can compose them, humans review the diff
-- **Central DIRAC logs** — one backend line sends 60+ components through ActiveMQ → Logstash → Elasticsearch
+- **dci-grafana MCP** — agent 搜索仪表盘、读取面板查询、执行 Prometheus 查询、返回渲染结果
+- **31 个仪表盘以 Git JSON 存储** — 5 个 provisioning provider，30 秒同步；agent 可组合，人来审核 diff
+- **DIRAC 集中日志** — 一条后端线路把 60+ 组件经 ActiveMQ → Logstash → Elasticsearch 汇聚
 
 <div class="takeaway compact mt-2">
-People and agents read the <strong>same evidence</strong> — no private data path for the model.
+人和 agent 读<strong>同一份证据</strong> — 模型没有私有数据通道。
 </div>
 
   </div>
   <div>
 
 <div class="dashboard-frame snapshot-frame">
-  <img :src="'images/component-logs-snapshot.png'" alt="Historical Component Logs snapshot showing log levels, rates and example entries" />
+  <img :src="'images/component-logs-snapshot.png'" alt="Component Logs 历史快照：日志等级、速率与示例条目" />
 </div>
 
 <div class="text-center mt-2">
-  <span class="muted">Historical snapshot · Sep 2026</span> · <a href="https://dci-grafana.ihep.ac.cn/d/bfgu666p30xdsb/component-logs?orgId=1&from=1788912000000&to=1788998400000&timezone=browser&var-Category=$__all&var-Name=$__all&var-Level=$__all&kiosk"><mdi-open-in-new /> Open dashboard (login required)</a>
+  <span class="muted">历史快照 · 2026 年 9 月</span> · <a href="https://dci-grafana.ihep.ac.cn/d/bfgu666p30xdsb/component-logs?orgId=1&from=1788912000000&to=1788998400000&timezone=browser&var-Category=$__all&var-Name=$__all&var-Level=$__all&kiosk"><mdi-open-in-new /> 打开仪表盘（需登录）</a>
 </div>
 
   </div>
@@ -373,21 +373,21 @@ The read side. The dci-grafana MCP lets the agent search dashboards and query mo
 layout: default
 ---
 
-# MCP functions define what the agent can execute
+# MCP 函数定义了 agent 能执行什么
 
 <div class="action-flow mt-2">
-  <div><small>REQUEST</small><strong>dci-agent</strong><span>operational intent</span></div><b aria-hidden="true">→</b>
-  <div><small>IDENTITY</small><strong>scoped token</strong><span>allowed actions only</span></div><b aria-hidden="true">→</b>
-  <div><small>BOUNDARY</small><strong>MCP function</strong><span>predefined parameters</span></div><b aria-hidden="true">→</b>
-  <div><small>TARGET</small><strong>DIRAC / FTS</strong><span>specific service</span></div>
+  <div><small>请求</small><strong>dci-agent</strong><span>运维意图</span></div><b aria-hidden="true">→</b>
+  <div><small>身份</small><strong>受限 token</strong><span>仅允许的操作</span></div><b aria-hidden="true">→</b>
+  <div><small>边界</small><strong>MCP 函数</strong><span>预定义参数</span></div><b aria-hidden="true">→</b>
+  <div><small>目标</small><strong>DIRAC / FTS</strong><span>具体服务</span></div>
 </div>
 
-<div class="action-examples"><span>e.g. restart a selected DIRAC component</span><span>e.g. restart an FTS service</span></div>
+<div class="action-examples"><span>例：重启选定的 DIRAC 组件</span><span>例：重启 FTS 服务</span></div>
 
 <div class="rule-list mt-3">
-  <div><mdi-key-outline /><span><strong>Scoped tokens</strong> — the agent authenticates with a dedicated token whose scope names exactly what may be executed; nothing else is reachable.</span></div>
-  <div><mdi-cube-outline /><span><strong>Operations are code, not prompts</strong> — "restart component X" is an internal function inside the MCP service; the agent cannot compose arbitrary shell commands.</span></div>
-  <div><mdi-book-open-variant-outline /><span><strong>Skills guide the decision</strong> — they describe when to call a function; the token scope and MCP implementation enforce what is actually executable.</span></div>
+  <div><mdi-key-outline /><span><strong>受限 token</strong> — agent 用专用 token 认证，其 scope 明确列出可执行的内容；其余均不可达。</span></div>
+  <div><mdi-cube-outline /><span><strong>操作是代码，不是提示词</strong> — "重启组件 X" 是 MCP 服务内的内部函数；agent 无法拼出任意的 shell 命令。</span></div>
+  <div><mdi-book-open-variant-outline /><span><strong>技能引导决策</strong> — 技能描述何时调用函数；真正能否执行由 token 范围和 MCP 实现强制。</span></div>
 </div>
 
 
@@ -400,22 +400,22 @@ The write side is separate. A dedicated token limits which MCP functions are cal
 layout: default
 ---
 
-# Reviewed skills make experience reusable
+# 经审核的技能让经验可复用
 
 <div class="skill-flow mt-2">
-  <div><small>01 · DO</small><strong>Conversation<br/>or operation</strong></div><b aria-hidden="true">→</b>
-  <div><small>02 · DISTILL</small><strong>Agent summarizes<br/>what worked</strong></div><b aria-hidden="true">→</b>
-  <div><small>03 · REVIEW</small><strong>Human checks<br/>the write-up</strong></div><b aria-hidden="true">→</b>
-  <div><small>04 · REUSE</small><strong>Publish as<br/>a skill</strong></div>
+  <div><small>01 · 做</small><strong>对话<br/>或操作</strong></div><b aria-hidden="true">→</b>
+  <div><small>02 · 提炼</small><strong>agent 总结<br/>有效做法</strong></div><b aria-hidden="true">→</b>
+  <div><small>03 · 审核</small><strong>人工检查<br/>成文内容</strong></div><b aria-hidden="true">→</b>
+  <div><small>04 · 复用</small><strong>发布为<br/>技能</strong></div>
 </div>
 
 <div class="two-notes compact-notes mt-3">
-  <div><strong>For operations</strong><br/>DIRAC and job-operations skills, per-repository agent guides, and the v9 upgrade notes — each fix becomes a documented step the next session starts from.</div>
-  <div><strong>For users — already available</strong><br/>JUNO DIRAC basics packaged as skills: users can ask the agent to <strong>submit jobs</strong> and <strong>query files</strong>, without remembering every command.</div>
+  <div><strong>面向运维</strong><br/>DIRAC 与作业操作技能、每仓库 agent 指南、v9 升级笔记 — 每次修复都成为下一次会话的文档化起点。</div>
+  <div><strong>面向用户 — 已可用</strong><br/>JUNO DIRAC 基础打包为技能：用户可以让 agent <strong>提交作业</strong>、<strong>查询文件</strong>，不用记住每条命令。</div>
 </div>
 
 <div class="takeaway mt-3">
-The next session consults the reviewed skill; the agent need not rediscover the same procedure.
+下一次会话直接查阅经审核的技能；agent 不必重新摸索同一流程。
 </div>
 
 
@@ -428,14 +428,14 @@ Skills are how the system compounds. After a conversation or an operation, the a
 layout: default
 ---
 
-# Five boundaries limit operational risk
+# 五条边界控制运维风险
 
 <div class="rule-list mt-3">
-  <div><mdi-check-circle-outline /><span><strong>The NFS evidence plane is read-only.</strong> Configs, logs and source are mounted without a write path; actions use separate MCP functions.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Credentials are sanitized before the model.</strong> Tokens, keys and passwords are masked; source and logs remain untrusted input.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Actions are whitelisted functions behind scoped tokens.</strong> The agent invokes predefined operations — it cannot compose arbitrary commands.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Skills guide when to invoke an action.</strong> Authorization is enforced by the MCP scope and function, not by the skill text.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Knowledge is written to be consulted.</strong> Notes and skills are part of the workflow — they are what the next session, or the next user, reads first.</span></div>
+  <div><mdi-check-circle-outline /><span><strong>NFS 证据面只读。</strong>配置、日志、源码挂载时没有写路径；操作使用单独的 MCP 函数。</span></div>
+  <div><mdi-check-circle-outline /><span><strong>凭据在模型之前脱敏。</strong>token、密钥、密码被屏蔽；源码与日志仍是不可信输入。</span></div>
+  <div><mdi-check-circle-outline /><span><strong>操作是受限 token 后面的白名单函数。</strong>agent 调用预定义操作 — 无法拼出任意命令。</span></div>
+  <div><mdi-check-circle-outline /><span><strong>技能指导何时调用操作。</strong>授权由 MCP 范围和函数实现强制，而不是技能文本。</span></div>
+  <div><mdi-check-circle-outline /><span><strong>知识写成供查阅的形式。</strong>笔记和技能是工作流的一部分 — 是下一次会话或用户首先读的东西。</span></div>
 </div>
 
 
@@ -448,35 +448,35 @@ Five boundaries hold the story together: read-only evidence mounts, credential s
 layout: default
 ---
 
-# Roadmap: earn autonomy with evidence
+# 路线图：用证据赢得自主
 
 <div class="cols mt-2">
   <div>
 
-## Horizontal — widen the view
+## 横向 — 拓宽视野
 
 <div class="status-stack tight">
-  <div><mdi-arrow-right-circle-outline /><span><strong>More sources, same contract</strong><br/>More middleware mounts; scheduled analyses over all of them</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>Log early warning</strong><br/>Error patterns and log-rate anomalies from the centralized logs</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>RAG over runbooks</strong><br/>Natural-language query over accumulated notes, on our own infra</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>更多数据源，同一契约</strong><br/>更多中间件挂载；对全部数据源做定时分析</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>日志早期预警</strong><br/>集中日志中的错误模式与日志率异常</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>运行手册 RAG</strong><br/>在自建基础设施上用自然语言查询积累的笔记</span></div>
 </div>
 
   </div>
   <div>
 
-## Vertical — widen the whitelist
+## 纵向 — 扩大白名单
 
 <div class="status-stack next tight">
-  <div><mdi-arrow-right-circle-outline /><span><strong>More MCP functions</strong><br/>Each new operation enters as a reviewed internal function with its own scope</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>More user-facing skills</strong><br/>Job submission and file queries for non-experts, beyond the JUNO basics</span></div>
-  <div><mdi-arrow-right-circle-outline /><span><strong>Audit + approval flows</strong><br/>Every action persisted; stage-3 critical operations behind explicit consent</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>更多 MCP 函数</strong><br/>每个新操作都以经审核的内部函数加独立范围进入</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>更多面向用户的技能</strong><br/>超越 JUNO 基础的作业提交与文件查询</span></div>
+  <div><mdi-arrow-right-circle-outline /><span><strong>审计 + 审批流</strong><br/>每个操作持久化；第三阶段关键操作需明确同意</span></div>
 </div>
 
   </div>
 </div>
 
 <div class="takeaway compact mt-3">
-Each new action is a deliberate <strong>code review</strong>, not a prompt tweak. Autonomy is earned by evidence, not by confidence.
+每个新操作都是一次认真的<strong>代码评审</strong>，不是改提示词。自主靠证据赢得，不是靠自信。
 </div>
 
 
@@ -489,17 +489,17 @@ The roadmap. Horizontal: widen the view — more middleware mounts, log early wa
 layout: default
 ---
 
-# One view, bounded actions, reusable knowledge
+# 一个视图、有界操作、可复用知识
 
 <div class="three-cards takeaway-cards mt-6">
-  <div class="story-card"><strong>1</strong><h2>One view</h2><p>dci-agent sees the whole chain — configs, logs, source, monitoring — read-only and sanitized, in chat or on a schedule.</p></div>
-  <div class="story-card"><strong>2</strong><h2>Staged autonomy</h2><p>From read-only analysis to approved actions: each step needs stronger controls and evidence.</p></div>
-  <div class="story-card"><strong>3</strong><h2>Compounding</h2><p>Skills serve administrators and users alike — every conversation and fix makes the next task easier.</p></div>
+  <div class="story-card"><strong>1</strong><h2>一个视图</h2><p>dci-agent 看到整条链 — 配置、日志、源码、监控 — 只读且脱敏，聊天或定时可用。</p></div>
+  <div class="story-card"><strong>2</strong><h2>分阶段自主</h2><p>从只读分析到经批准的操作：每一步都需要更强的控制与证据。</p></div>
+  <div class="story-card"><strong>3</strong><h2>复利效应</h2><p>技能同时服务管理员与用户 — 每次对话和修复都让下一个任务更容易。</p></div>
 </div>
 
 <div class="closing-line mt-10">
-Not an autopilot today.<br/>
-A <strong>longer reach for operators and users</strong> — with a path toward earned autonomy.
+今天不是自动驾驶。<br/>
+是给操作者和用户<strong>更长的手臂</strong> — 有一条靠证据赢得的自主之路。
 </div>
 
 
@@ -515,10 +515,10 @@ title: Questions
 ---
 
 
-# Thank you. Questions?
+# 谢谢！欢迎提问
 
 **Xiao Han · IHEP, CC**<br/>
-IHEP DCI Group
+IHEP DCI 组
 
 <a href="https://indico.cern.ch/event/1588323" class="ns-c-iconlink"><mdi-link-variant /> Workshop Indico</a>
 
