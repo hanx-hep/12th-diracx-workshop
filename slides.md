@@ -90,7 +90,7 @@ layout: default
   <div>
 
 <div class="triage-list">
-  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 60+ 组件；6 个 SiteDirector 实例（JUNO、CEPC、CMS、BES、LHCb、JUNOCloud）。</span></div>
+  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 60+ 组件；4 个 SiteDirector 实例（JUNO、CEPC、BES、JUNOCloud）。</span></div>
   <div><small>中间件链</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>传输、存储与站点服务 — 各自有配置、日志与源码。</span></div>
   <div><small>准备中</small><strong>v9 迁移基线</strong><span>测试主机上 agent 已基本完成 v9.0.26 部署。</span></div>
 </div>
@@ -116,7 +116,7 @@ layout: default
 <!--
 Timing: 0:50
 
-Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, six SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Before the architecture, one slide on how we think an AI assistant should grow into this job.
+Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Before the architecture, one slide on how we think an AI assistant should grow into this job.
 -->
 ---
 layout: section
