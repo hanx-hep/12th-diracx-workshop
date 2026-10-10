@@ -30,8 +30,7 @@ themeConfig:
 
 **The 12th DIRAC(X) Users' Workshop** · 2026 · *IHEP, Beijing*
 
-<a href="https://dci-grafana.ihep.ac.cn/" class="ns-c-iconlink"><mdi-view-dashboard-outline /> DCI Grafana</a>
- · <a href="https://github.com/hanx-hep/2026-cepc-dci" class="ns-c-iconlink"><mdi-history /> Monitoring report</a>
+<a href="https://indico.cern.ch/event/1588323" class="ns-c-iconlink"><mdi-link-variant /> Workshop Indico</a>
 
 
 <!--
@@ -521,8 +520,7 @@ title: Questions
 **Xiao Han · IHEP, CC**<br/>
 IHEP DCI Group
 
-<a href="https://dci-grafana.ihep.ac.cn/"><mdi-view-dashboard-outline /> dci-grafana.ihep.ac.cn</a>
- · <a href="https://github.com/hanx-hep/2026-cepc-dci"><mdi-github /> monitoring report</a>
+<a href="https://indico.cern.ch/event/1588323" class="ns-c-iconlink"><mdi-link-variant /> Workshop Indico</a>
 
 <!--
 Timing: 0:15
