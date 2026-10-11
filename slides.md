@@ -400,6 +400,41 @@ The write side is separate. A dedicated token limits which MCP functions are cal
 layout: default
 ---
 
+# The gateway console makes the whitelist visible
+
+<div class="gateway-grid mt-2">
+  <figure class="gateway-shot">
+    <img :src="'./images/mcp-home.png'" alt="IHEP MCP gateway LDAP login page" />
+    <figcaption><mdi-login-variant /> LDAP login — the only entry</figcaption>
+  </figure>
+  <figure class="gateway-shot">
+    <img :src="'./images/admin-mcp-tools.png'" alt="MCP tool permission configuration: 78 tools with required scopes and risk levels" />
+    <figcaption><mdi-cube-outline /> 78 tools — per-tool scopes &amp; risk</figcaption>
+  </figure>
+  <figure class="gateway-shot">
+    <img :src="'./images/admin-permissions.png'" alt="Scope management: 11 scopes mapped to roles" />
+    <figcaption><mdi-shield-key-outline /> 11 scopes — role mapping</figcaption>
+  </figure>
+  <figure class="gateway-shot">
+    <img :src="'./images/admin-audit.png'" alt="Authentication audit log with logins and API key verifications" />
+    <figcaption><mdi-file-document-outline /> Auth events — audited</figcaption>
+  </figure>
+</div>
+
+<div class="takeaway compact mt-2">
+Permissions are <strong>data, not prompts</strong> — every tool carries explicit scopes and a risk level; dangerous operations additionally require the <strong>admin role</strong>; every login and key verification is <strong>audited</strong>.
+</div>
+
+
+<!--
+Timing: 0:40
+
+The gateway console, in practice. Login is LDAP-based — the same identity as the cluster. The tool registry holds 78 tools; each protected tool names its required scopes and a risk level, and dangerous operations additionally require the admin role. Scopes map to roles in one place, and every login or API-key verification lands in the audit log. The whitelist is not a slide — it is configuration an administrator can inspect.
+-->
+---
+layout: default
+---
+
 # Reviewed skills make experience reusable
 
 <div class="skill-flow mt-2">
