@@ -400,6 +400,41 @@ The write side is separate. A dedicated token limits which MCP functions are cal
 layout: default
 ---
 
+# 网关控制台让白名单看得见
+
+<div class="gateway-grid mt-2">
+  <figure class="gateway-shot">
+    <img :src="'./images/mcp-home.png'" alt="IHEP MCP 网关 LDAP 登录页" />
+    <figcaption><mdi-login-variant /> LDAP 登录 — 唯一入口</figcaption>
+  </figure>
+  <figure class="gateway-shot">
+    <img :src="'./images/admin-mcp-tools.png'" alt="MCP 工具权限配置：78 个工具，逐工具所需 scope 与风险等级" />
+    <figcaption><mdi-cube-outline /> 78 个工具 — 逐工具 scope 与风险等级</figcaption>
+  </figure>
+  <figure class="gateway-shot">
+    <img :src="'./images/admin-permissions.png'" alt="Scope 管理：11 个 scope 及角色映射" />
+    <figcaption><mdi-shield-key-outline /> 11 个 scope — 角色映射</figcaption>
+  </figure>
+  <figure class="gateway-shot">
+    <img :src="'./images/admin-audit.png'" alt="认证审计日志：登录与 API key 验证记录" />
+    <figcaption><mdi-file-document-outline /> 认证事件 — 全部审计</figcaption>
+  </figure>
+</div>
+
+<div class="takeaway compact mt-2">
+权限是<strong>数据，不是提示词</strong> — 每个工具都绑定明确的 scope 与风险等级；危险操作额外要求 <strong>admin 角色</strong>；所有登录与密钥验证都有<strong>审计记录</strong>。
+</div>
+
+
+<!--
+Timing: 0:40
+
+The gateway console, in practice. Login is LDAP-based — the same identity as the cluster. The tool registry holds 78 tools; each protected tool names its required scopes and a risk level, and dangerous operations additionally require the admin role. Scopes map to roles in one place, and every login or API-key verification lands in the audit log. The whitelist is not a slide — it is configuration an administrator can inspect.
+-->
+---
+layout: default
+---
+
 # 经审核的技能让经验可复用
 
 <div class="skill-flow mt-2">
