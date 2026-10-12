@@ -81,44 +81,6 @@ Timing: 0:50
 Why this talk now? Models reason better over configs, logs and code, and MCP and skills make that reasoning useful. We deployed dci-agent to bring evidence from across IHEP DCI into everyday operations: see the chain, answer and report, help deploy, and keep actions inside an explicit boundary. First I will show the operations; then I will show the infrastructure behind them.
 -->
 ---
-layout: default
----
-
-# DCI 运维横跨多个系统
-
-<div class="cols mt-2">
-  <div>
-
-<div class="triage-list">
-  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 60+ 组件；4 个 SiteDirector 实例（JUNO、CEPC、BES、JUNOCloud）。</span></div>
-  <div><small>中间件链</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>传输、存储与站点服务 — 各自有配置、日志与源码。</span></div>
-  <div><small>准备中</small><strong>v9 迁移基线</strong><span>测试主机上 agent 已基本完成 v9.0.26 部署。</span></div>
-</div>
-
-  </div>
-  <div>
-
-日常工作分四条线：
-
-- **部署** — 版本升级、组件安装、配置变更
-- **监控** — 指标、可用性探测、仪表盘
-- **诊断** — 组件日志、传输链路、跨系统追踪
-- **沉淀** — 运行手册、安装笔记、下一次值班需要的知识
-
-<div class="takeaway compact mt-4">
-故障的现象和根源往往在<strong>不同系统</strong>上 — 这正是只有一个只读视图的 agent 发挥作用的地方。
-</div>
-
-  </div>
-</div>
-
-
-<!--
-Timing: 0:50
-
-Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Before the architecture, one slide on how we think an AI assistant should grow into this job.
--->
----
 layout: section
 ---
 
@@ -163,7 +125,45 @@ layout: default
 <!--
 Timing: 1:20
 
-How should an AI assistant grow into an operations role? Four stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority.
+How should an AI assistant grow into an operations role? Four stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority. With that framing, here is the estate the assistant works on.
+-->
+---
+layout: default
+---
+
+# DCI 运维横跨多个系统
+
+<div class="cols mt-2">
+  <div>
+
+<div class="triage-list">
+  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 60+ 组件；4 个 SiteDirector 实例（JUNO、CEPC、BES、JUNOCloud）。</span></div>
+  <div><small>中间件链</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>传输、存储与站点服务 — 各自有配置、日志与源码。</span></div>
+  <div><small>准备中</small><strong>v9 迁移基线</strong><span>测试主机上 agent 已基本完成 v9.0.26 部署。</span></div>
+</div>
+
+  </div>
+  <div>
+
+日常工作分四条线：
+
+- **部署** — 版本升级、组件安装、配置变更
+- **监控** — 指标、可用性探测、仪表盘
+- **诊断** — 组件日志、传输链路、跨系统追踪
+- **沉淀** — 运行手册、安装笔记、下一次值班需要的知识
+
+<div class="takeaway compact mt-4">
+故障的现象和根源往往在<strong>不同系统</strong>上 — 这正是只有一个只读视图的 agent 发挥作用的地方。
+</div>
+
+  </div>
+</div>
+
+
+<!--
+Timing: 0:50
+
+Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Next: the architecture that gives one assistant this single read-only view.
 -->
 ---
 layout: default
@@ -197,46 +197,6 @@ layout: default
 Timing: 1:25
 
 The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The dci-grafana MCP provides metrics and dashboard queries. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
--->
----
-layout: default
----
-
-# 证据只读；操作走单独路径
-
-<div class="cols mt-2">
-  <div>
-
-## 只读是构造属性，不是口头承诺
-
-- NFS 挂载<strong>只读</strong> — 配置、日志、源码不可写
-- 证据面到中间件<strong>没有写路径</strong>
-
-<div class="takeaway compact mt-3">
-NFS 证据路径无法修改挂载的中间件文件。
-</div>
-
-  </div>
-  <div>
-
-## 模型看到之前先脱敏
-
-- <strong>所有凭据脱敏</strong> — token、密钥、密码从配置与日志中屏蔽
-- 敏感值在到达模型前被过滤
-- 即使过滤后，日志与源码仍是<strong>不可信输入</strong>
-
-<div class="takeaway compact mt-3">
-脱敏降低暴露；不能替代审批和 MCP 侧控制。
-</div>
-
-  </div>
-</div>
-
-
-<!--
-Timing: 1:00
-
-The evidence mounts are read-only, so reading a log or comparing a config cannot alter those mounted files. We sanitize credentials before the model sees them. But read-only mounts are not a universal safety guarantee: logs and source can still contain misleading instructions, and the agent has a separate MCP action path. We treat those inputs as untrusted and enforce write permissions at that separate boundary.
 -->
 ---
 layout: default
@@ -422,7 +382,7 @@ layout: default
 </div>
 
 <div class="takeaway compact mt-2">
-权限是<strong>数据，不是提示词</strong> — 每个工具都绑定明确的 scope 与风险等级；危险操作额外要求 <strong>admin 角色</strong>；所有登录与密钥验证都有<strong>审计记录</strong>。
+权限是<strong>数据，不是提示词</strong> — 逐工具 scope 与风险等级；危险操作需 <strong>admin 角色</strong>；认证事件全部<strong>审计</strong>。
 </div>
 
 
