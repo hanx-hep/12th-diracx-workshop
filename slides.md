@@ -81,44 +81,6 @@ Timing: 0:50
 Why this talk now? Models reason better over configs, logs and code, and MCP and skills make that reasoning useful. We deployed dci-agent to bring evidence from across IHEP DCI into everyday operations: see the chain, answer and report, help deploy, and keep actions inside an explicit boundary. First I will show the operations; then I will show the infrastructure behind them.
 -->
 ---
-layout: default
----
-
-# DCI operations cross multiple systems
-
-<div class="cols mt-2">
-  <div>
-
-<div class="triage-list">
-  <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 4 SiteDirector instances (JUNO, CEPC, BES, JUNOCloud).</span></div>
-  <div><small>MIDDLEWARE CHAIN</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>Transfers, storage and site services — each with its own configs, logs, and source.</span></div>
-  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.26 deployment.</span></div>
-</div>
-
-  </div>
-  <div>
-
-The daily work is four streams:
-
-- **Deploy** — version upgrades, component installs, config changes
-- **Watch** — metrics, availability probes, dashboards
-- **Diagnose** — component logs, transfer chains, cross-system traces
-- **Record** — runbooks, install notes, the knowledge the next shift needs
-
-<div class="takeaway compact mt-4">
-A fault's symptom and its cause often live on <strong>different systems</strong> — exactly where an agent with one read-only view helps.
-</div>
-
-  </div>
-</div>
-
-
-<!--
-Timing: 0:50
-
-Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Before the architecture, one slide on how we think an AI assistant should grow into this job.
--->
----
 layout: section
 ---
 
@@ -163,7 +125,45 @@ The learning loop: Hermes can distill conversations and operations into <strong>
 <!--
 Timing: 1:20
 
-How should an AI assistant grow into an operations role? Four stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority.
+How should an AI assistant grow into an operations role? Four stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority. With that framing, here is the estate the assistant works on.
+-->
+---
+layout: default
+---
+
+# DCI operations cross multiple systems
+
+<div class="cols mt-2">
+  <div>
+
+<div class="triage-list">
+  <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 4 SiteDirector instances (JUNO, CEPC, BES, JUNOCloud).</span></div>
+  <div><small>MIDDLEWARE CHAIN</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>Transfers, storage and site services — each with its own configs, logs, and source.</span></div>
+  <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.26 deployment.</span></div>
+</div>
+
+  </div>
+  <div>
+
+The daily work is four streams:
+
+- **Deploy** — version upgrades, component installs, config changes
+- **Watch** — metrics, availability probes, dashboards
+- **Diagnose** — component logs, transfer chains, cross-system traces
+- **Record** — runbooks, install notes, the knowledge the next shift needs
+
+<div class="takeaway compact mt-4">
+A fault's symptom and its cause often live on <strong>different systems</strong> — exactly where an agent with one read-only view helps.
+</div>
+
+  </div>
+</div>
+
+
+<!--
+Timing: 0:50
+
+Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Next: the architecture that gives one assistant this single read-only view.
 -->
 ---
 layout: default
@@ -197,46 +197,6 @@ layout: default
 Timing: 1:25
 
 The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The dci-grafana MCP provides metrics and dashboard queries. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
--->
----
-layout: default
----
-
-# Evidence is read-only; actions have a separate path
-
-<div class="cols mt-2">
-  <div>
-
-## Read-only is a property, not a policy
-
-- NFS mounts are <strong>read-only</strong> — configs, logs, and source cannot be written
-- The evidence plane simply has <strong>no write path</strong> to the middleware
-
-<div class="takeaway compact mt-3">
-The NFS evidence path cannot modify mounted middleware files.
-</div>
-
-  </div>
-  <div>
-
-## Sanitized before the model
-
-- <strong>All credentials sanitized</strong> — tokens, keys and passwords masked out of configs and logs
-- Sensitive values are filtered before reaching the model
-- Logs and source remain <strong>untrusted input</strong>, even after filtering
-
-<div class="takeaway compact mt-3">
-Sanitization reduces exposure; it does not replace approval and MCP-side controls.
-</div>
-
-  </div>
-</div>
-
-
-<!--
-Timing: 1:00
-
-The evidence mounts are read-only, so reading a log or comparing a config cannot alter those mounted files. We sanitize credentials before the model sees them. But read-only mounts are not a universal safety guarantee: logs and source can still contain misleading instructions, and the agent has a separate MCP action path. We treat those inputs as untrusted and enforce write permissions at that separate boundary.
 -->
 ---
 layout: default
@@ -422,7 +382,7 @@ layout: default
 </div>
 
 <div class="takeaway compact mt-2">
-Permissions are <strong>data, not prompts</strong> — every tool carries explicit scopes and a risk level; dangerous operations additionally require the <strong>admin role</strong>; every login and key verification is <strong>audited</strong>.
+Permissions are <strong>data, not prompts</strong> — per-tool scopes and risk levels, the <strong>admin role</strong> for dangerous operations, an <strong>audit log</strong> for every auth event.
 </div>
 
 
