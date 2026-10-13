@@ -67,11 +67,7 @@ At IHEP we deployed <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-i
 - <strong>Help deploy</strong> — it largely completed a DIRAC v9 test deployment
 - <strong>Stay safe</strong> — read-only by construction; actions only through whitelisted MCP functions
 
-<div class="takeaway compact mt-3">
-Start with operations; then show the MCP and skills behind them.
 </div>
-
-  </div>
 </div>
 
 
