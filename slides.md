@@ -67,11 +67,7 @@ layout: default
 - <strong>协助部署</strong> — 基本完成了 DIRAC v9 测试部署
 - <strong>保持安全</strong> — 构造上只读；操作只能通过白名单 MCP 函数
 
-<div class="takeaway compact mt-3">
-先讲运维，再讲背后的 MCP 与技能。
 </div>
-
-  </div>
 </div>
 
 
