@@ -198,28 +198,25 @@ The architecture. Read-only NFS mounts bring sanitized configurations, logs and 
 layout: default
 ---
 
-# Chat and scheduled checks share one evidence plane
+# The dci-agent web UI
 
 <div class="cols mt-2">
   <div>
 
-## Two ways to start a task
+## What the recording shows
 
-<div class="triage-list">
-  <div><small>CHAT</small><strong>An administrator asks</strong><span>Check a transfer or diagnose a failure using FTS3, DIRAC and other evidence; answer with sources.</span></div>
-  <div><small>SCHEDULE</small><strong>A cronjob starts regular checks</strong><span>Summarize service status and flag unusual findings for an administrator to review.</span></div>
+- **Dashboard** — services and system status at a glance
+- **Status checks** — run checks across the chain
+- **Status analysis** — drill into failures and anomalies
+- **Periodic tasks** — schedule recurring checks
+- **Chat** — ask questions in natural language
+
 </div>
-
-<div class="takeaway compact mt-3">
-Reachable through Feishu, Mattermost and the web UI — the same agent, the same evidence plane; only the <strong>trigger</strong> differs: a message, or the clock.
-</div>
-
-  </div>
   <div>
 
 <div class="agent-demo">
-  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="Screen recording of the DCI operations assistant dashboard and AI chat"></video>
-  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent dashboard and chat · screen recording (muted)</div>
+  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="Screen recording of the dci-agent web UI"></video>
+  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent web UI · screen recording (muted)</div>
 </div>
 
   </div>
@@ -229,7 +226,7 @@ Reachable through Feishu, Mattermost and the web UI — the same agent, the same
 <!--
 Timing: 1:05
 
-Two ways to drive it. Interactively: an administrator asks, in Feishu, Mattermost or the web UI — what is the transfer status for this site, help me triage this failure — and the agent answers with sources it can cite, or drafts a diagnosis for review. And on a schedule: a cronjob triggers periodic status checks that aggregate across the chain and summarize the running state; anomalies get a drafted analysis flagged for a human to judge. Same agent, same read-only evidence plane — only the trigger differs: a message, or the clock.
+A quick walkthrough of the web UI. The dashboard summarizes services and system status; status checks run across the chain; the analysis view drills into failures and anomalies; periodic tasks schedule the same checks; and the chat window takes questions in natural language. The same agent is reachable from Feishu, Mattermost or this web UI.
 -->
 ---
 layout: default
@@ -351,6 +348,37 @@ layout: default
 Timing: 1:20
 
 The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
+-->
+---
+layout: default
+---
+
+# The MCP gateway architecture
+
+Clients talk to the gateway over <strong>MCP JSON-RPC</strong>; every request is verified before a tool executes.
+
+```mermaid {scale: 0.8}
+graph LR
+    A[Client] -->|MCP JSON-RPC| B[IHEP MCP Gateway]
+    B -->|verify-key| C[Auth Service]
+    C -->|LDAP| D[(IHEP LDAP)]
+    C -->|SQL| E[(PostgreSQL)]
+    B -->|tool call| F[HTCondor<br/>SLURM]
+    C -->|Web UI| G[React SPA]
+    G -->|REST API| C
+    style C fill:#313244,stroke:#89b4fa
+    style G fill:#313244,stroke:#94e2d5
+```
+
+<div class="takeaway compact mt-2">
+<strong>Layered and decoupled</strong> — identity from IHEP LDAP, state in PostgreSQL, backend tools behind FastMCP; every call is verified and audited.
+</div>
+
+
+<!--
+Timing: 0:40
+
+One slide on how the gateway itself is built. Clients — dci-agent, scripts, other agents — speak MCP JSON-RPC to the gateway. Before any tool executes, the call is verified: the auth service checks the key against LDAP identity and PostgreSQL state and returns the allowed scopes. Verified calls are dispatched to FastMCP, which triggers the backend tools — HTCondor, SLURM and the rest. The same auth service serves the React web console. Layered and decoupled: each piece can be inspected and replaced on its own.
 -->
 ---
 layout: default
