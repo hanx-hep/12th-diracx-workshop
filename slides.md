@@ -133,7 +133,7 @@ layout: default
   <div>
 
 <div class="triage-list">
-  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 60+ 组件；4 个 SiteDirector 实例（JUNO、CEPC、BES、JUNOCloud）。</span></div>
+  <div><small>生产环境</small><strong>DIRAC v8.0.58（JUNO）</strong><span>5 台服务器上 90+ 组件；4 个 SiteDirector 实例（JUNO、CEPC、BES、JUNOCloud）。</span></div>
   <div><small>中间件链</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>传输、存储与站点服务 — 各自有配置、日志与源码。</span></div>
   <div><small>准备中</small><strong>v9 迁移基线</strong><span>测试主机上 agent 已基本完成 v9.0.26 部署。</span></div>
 </div>
@@ -159,7 +159,7 @@ layout: default
 <!--
 Timing: 0:50
 
-Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Next: the architecture that gives one assistant this single read-only view.
+Context. In production we run DIRAC v8.0.58 for JUNO — ninety-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Next: the architecture that gives one assistant this single read-only view.
 -->
 ---
 layout: default
@@ -174,7 +174,7 @@ layout: default
   </div>
   <div class="architecture-down"><span>只读证据</span><i aria-hidden="true"></i></div>
   <div class="architecture-flow">
-    <div class="architecture-node"><small>监控</small><strong>dci-grafana MCP</strong><span>指标与仪表盘</span></div>
+    <div class="architecture-node"><small>MCP</small><strong>IHEP MCP</strong><span>监控 · 服务控制</span></div>
     <b aria-hidden="true">→</b>
     <div class="architecture-node architecture-agent"><small>基于 Hermes</small><strong>dci-agent</strong><span>关联 · 分析 · 报告</span></div>
     <b aria-hidden="true">→</b>
@@ -192,7 +192,7 @@ layout: default
 <!--
 Timing: 1:25
 
-The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The dci-grafana MCP provides metrics and dashboard queries. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
+The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The IHEP MCP gateway provides monitoring queries on the read side and scoped server-control functions on the write side. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
 -->
 ---
 layout: default
@@ -299,7 +299,7 @@ layout: default
 
 - **dci-grafana MCP** — agent 搜索仪表盘、读取面板查询、执行 Prometheus 查询、返回渲染结果
 - **31 个仪表盘以 Git JSON 存储** — 5 个 provisioning provider，30 秒同步；agent 可组合，人来审核 diff
-- **DIRAC 集中日志** — 一条后端线路把 60+ 组件经 ActiveMQ → Logstash → Elasticsearch 汇聚
+- **DIRAC 集中日志** — 一条后端线路把 90+ 组件经 ActiveMQ → Logstash → Elasticsearch 汇聚
 
 <div class="takeaway compact mt-2">
 人和 agent 读<strong>同一份证据</strong> — 模型没有私有数据通道。
