@@ -198,28 +198,25 @@ The architecture. Read-only NFS mounts bring sanitized configurations, logs and 
 layout: default
 ---
 
-# 聊天与定时检查共享同一证据面
+# dci-agent 的 Web UI
 
 <div class="cols mt-2">
   <div>
 
-## 两种启动方式
+## 视频演示内容
 
-<div class="triage-list">
-  <div><small>对话</small><strong>管理员提问</strong><span>用 FTS3、DIRAC 等证据检查传输或诊断故障；回答附来源。</span></div>
-  <div><small>定时</small><strong>cronjob 定期检查</strong><span>汇总服务状态，把异常发现交给管理员复核。</span></div>
+- **仪表盘** — 服务与系统状态总览
+- **状态检查** — 对整条链路执行检查
+- **状态分析** — 深入分析故障与异常
+- **周期任务** — 设置定时检查
+- **对话窗口** — 用自然语言提问
+
 </div>
-
-<div class="takeaway compact mt-3">
-可通过飞书、Mattermost 和 Web UI 访问 — 同一个 agent，同一个证据面；区别只是<strong>触发方式</strong>：一条消息，或时钟。
-</div>
-
-  </div>
   <div>
 
 <div class="agent-demo">
-  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="DCI 运维助手仪表盘与 AI 对话的屏幕录制"></video>
-  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent 仪表盘与对话 · 屏幕录制（静音）</div>
+  <video :src="'./dci-agent-demo-trimmed.mp4'" autoplay loop muted playsinline controls preload="metadata" aria-label="dci-agent Web UI 屏幕录制"></video>
+  <div class="agent-demo-caption"><mdi-monitor-screenshot /> dci-agent Web UI · 屏幕录制（静音）</div>
 </div>
 
   </div>
@@ -229,7 +226,7 @@ layout: default
 <!--
 Timing: 1:05
 
-Two ways to drive it. Interactively: an administrator asks, in Feishu, Mattermost or the web UI — what is the transfer status for this site, help me triage this failure — and the agent answers with sources it can cite, or drafts a diagnosis for review. And on a schedule: a cronjob triggers periodic status checks that aggregate across the chain and summarize the running state; anomalies get a drafted analysis flagged for a human to judge. Same agent, same read-only evidence plane — only the trigger differs: a message, or the clock.
+A quick walkthrough of the web UI. The dashboard summarizes services and system status; status checks run across the chain; the analysis view drills into failures and anomalies; periodic tasks schedule the same checks; and the chat window takes questions in natural language. The same agent is reachable from Feishu, Mattermost or this web UI.
 -->
 ---
 layout: default
@@ -351,6 +348,37 @@ layout: default
 Timing: 1:20
 
 The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
+-->
+---
+layout: default
+---
+
+# MCP 网关架构
+
+客户端通过标准 <strong>MCP JSON-RPC</strong> 与网关通信；每次调用先经验证，才会执行工具。
+
+```mermaid {scale: 0.8}
+graph LR
+    A[Client] -->|MCP JSON-RPC| B[IHEP MCP Gateway]
+    B -->|verify-key| C[Auth Service]
+    C -->|LDAP| D[(IHEP LDAP)]
+    C -->|SQL| E[(PostgreSQL)]
+    B -->|tool call| F[HTCondor<br/>SLURM]
+    C -->|Web UI| G[React SPA]
+    G -->|REST API| C
+    style C fill:#313244,stroke:#89b4fa
+    style G fill:#313244,stroke:#94e2d5
+```
+
+<div class="takeaway compact mt-2">
+<strong>分层解耦</strong> — 身份来自 IHEP LDAP，状态存于 PostgreSQL，后端工具挂在 FastMCP 之后；每次调用都验证并留痕。
+</div>
+
+
+<!--
+Timing: 0:40
+
+One slide on how the gateway itself is built. Clients — dci-agent, scripts, other agents — speak MCP JSON-RPC to the gateway. Before any tool executes, the call is verified: the auth service checks the key against LDAP identity and PostgreSQL state and returns the allowed scopes. Verified calls are dispatched to FastMCP, which triggers the backend tools — HTCondor, SLURM and the rest. The same auth service serves the React web console. Layered and decoupled: each piece can be inspected and replaced on its own.
 -->
 ---
 layout: default
