@@ -133,7 +133,7 @@ layout: default
   <div>
 
 <div class="triage-list">
-  <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>60+ components on 5 servers; 4 SiteDirector instances (JUNO, CEPC, BES, JUNOCloud).</span></div>
+  <div><small>PRODUCTION</small><strong>DIRAC v8.0.58 for JUNO</strong><span>90+ components on 5 servers; 4 SiteDirector instances (JUNO, CEPC, BES, JUNOCloud).</span></div>
   <div><small>MIDDLEWARE CHAIN</small><strong>FTS3 · grid-data · IHEPDIRAC · T1 CE</strong><span>Transfers, storage and site services — each with its own configs, logs, and source.</span></div>
   <div><small>IN PREPARATION</small><strong>v9 migration baseline</strong><span>A test host where the agent largely completed a v9.0.26 deployment.</span></div>
 </div>
@@ -159,7 +159,7 @@ A fault's symptom and its cause often live on <strong>different systems</strong>
 <!--
 Timing: 0:50
 
-Context. In production we run DIRAC v8.0.58 for JUNO — sixty-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Next: the architecture that gives one assistant this single read-only view.
+Context. In production we run DIRAC v8.0.58 for JUNO — ninety-plus components, four SiteDirectors — inside a middleware chain of FTS3, grid-data, IHEPDIRAC and the T1 computing element. Daily work is four streams: deploy, watch, diagnose, record. And the pain point: symptoms and causes live on different systems. That is the gap dci-agent fills. Next: the architecture that gives one assistant this single read-only view.
 -->
 ---
 layout: default
@@ -174,7 +174,7 @@ layout: default
   </div>
   <div class="architecture-down"><span>read-only evidence</span><i aria-hidden="true"></i></div>
   <div class="architecture-flow">
-    <div class="architecture-node"><small>MONITORING</small><strong>dci-grafana MCP</strong><span>metrics &amp; dashboards</span></div>
+    <div class="architecture-node"><small>MCP</small><strong>IHEP MCP</strong><span>monitoring · server control</span></div>
     <b aria-hidden="true">→</b>
     <div class="architecture-node architecture-agent"><small>HERMES-BASED</small><strong>dci-agent</strong><span>correlate · analyze · report</span></div>
     <b aria-hidden="true">→</b>
@@ -192,7 +192,7 @@ layout: default
 <!--
 Timing: 1:25
 
-The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The dci-grafana MCP provides metrics and dashboard queries. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
+The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The IHEP MCP gateway provides monitoring queries on the read side and scoped server-control functions on the write side. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
 -->
 ---
 layout: default
@@ -299,7 +299,7 @@ layout: default
 
 - **dci-grafana MCP** — the agent searches dashboards, reads panel queries, runs Prometheus queries, returns rendered panels
 - **31 dashboards as Git JSON** — five provisioning providers, 30 s sync; the agent can compose them, humans review the diff
-- **Central DIRAC logs** — one backend line sends 60+ components through ActiveMQ → Logstash → Elasticsearch
+- **Central DIRAC logs** — one backend line sends 90+ components through ActiveMQ → Logstash → Elasticsearch
 
 <div class="takeaway compact mt-2">
 People and agents read the <strong>same evidence</strong> — no private data path for the model.
