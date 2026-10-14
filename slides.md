@@ -311,33 +311,6 @@ Before the MCP details, the platform underneath. The IHEP AI platform serves mod
 layout: default
 ---
 
-# MCP functions define what the agent can execute
-
-<div class="action-flow mt-2">
-  <div><small>REQUEST</small><strong>dci-agent</strong><span>operational intent</span></div><b aria-hidden="true">→</b>
-  <div><small>IDENTITY</small><strong>scoped token</strong><span>allowed actions only</span></div><b aria-hidden="true">→</b>
-  <div><small>BOUNDARY</small><strong>MCP function</strong><span>predefined parameters</span></div><b aria-hidden="true">→</b>
-  <div><small>TARGET</small><strong>DIRAC / FTS</strong><span>specific service</span></div>
-</div>
-
-<div class="action-examples"><span>e.g. restart a selected DIRAC component</span><span>e.g. restart an FTS service</span></div>
-
-<div class="rule-list mt-3">
-  <div><mdi-key-outline /><span><strong>Scoped tokens</strong> — the agent authenticates with a dedicated token whose scope names exactly what may be executed; nothing else is reachable.</span></div>
-  <div><mdi-cube-outline /><span><strong>Operations are code, not prompts</strong> — "restart component X" is an internal function inside the MCP service; the agent cannot compose arbitrary shell commands.</span></div>
-  <div><mdi-book-open-variant-outline /><span><strong>Skills guide the decision</strong> — they describe when to call a function; the token scope and MCP implementation enforce what is actually executable.</span></div>
-</div>
-
-
-<!--
-Timing: 1:20
-
-The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
--->
----
-layout: default
----
-
 # The MCP gateway architecture
 
 Clients talk to the gateway over <strong>MCP JSON-RPC</strong>; every request is verified before a tool executes.
@@ -364,6 +337,33 @@ graph LR
 Timing: 0:40
 
 One slide on how the gateway itself is built. Clients — dci-agent, scripts, other agents — speak MCP JSON-RPC to the gateway. Before any tool executes, the call is verified: the auth service checks the key against LDAP identity and PostgreSQL state and returns the allowed scopes. Verified calls are dispatched to FastMCP, which triggers the backend tools — HTCondor, SLURM and the rest. The same auth service serves the React web console. Layered and decoupled: each piece can be inspected and replaced on its own.
+-->
+---
+layout: default
+---
+
+# MCP functions define what the agent can execute
+
+<div class="action-flow mt-2">
+  <div><small>REQUEST</small><strong>dci-agent</strong><span>operational intent</span></div><b aria-hidden="true">→</b>
+  <div><small>IDENTITY</small><strong>scoped token</strong><span>allowed actions only</span></div><b aria-hidden="true">→</b>
+  <div><small>BOUNDARY</small><strong>MCP function</strong><span>predefined parameters</span></div><b aria-hidden="true">→</b>
+  <div><small>TARGET</small><strong>DIRAC / FTS</strong><span>specific service</span></div>
+</div>
+
+<div class="action-examples"><span>e.g. restart a selected DIRAC component</span><span>e.g. restart an FTS service</span></div>
+
+<div class="rule-list mt-3">
+  <div><mdi-key-outline /><span><strong>Scoped tokens</strong> — the agent authenticates with a dedicated token whose scope names exactly what may be executed; nothing else is reachable.</span></div>
+  <div><mdi-cube-outline /><span><strong>Operations are code, not prompts</strong> — "restart component X" is an internal function inside the MCP service; the agent cannot compose arbitrary shell commands.</span></div>
+  <div><mdi-book-open-variant-outline /><span><strong>Skills guide the decision</strong> — they describe when to call a function; the token scope and MCP implementation enforce what is actually executable.</span></div>
+</div>
+
+
+<!--
+Timing: 1:20
+
+The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
 -->
 ---
 layout: default
