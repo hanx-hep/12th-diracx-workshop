@@ -28,7 +28,7 @@ themeConfig:
 
 <br>
 
-**第 12 届 DIRAC(X) 用户研讨会** · 2026 · *IHEP，北京*
+**第 12 届 DIRAC(X) 用户研讨会** · 2026 · *布拉格，捷克*
 
 <a href="https://indico.cern.ch/event/1588323" class="ns-c-iconlink"><mdi-link-variant /> Workshop Indico</a>
 
