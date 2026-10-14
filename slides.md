@@ -404,26 +404,6 @@ The gateway console, in practice. Login is LDAP-based — the same identity as t
 layout: default
 ---
 
-# 五条边界控制运维风险
-
-<div class="rule-list mt-3">
-  <div><mdi-check-circle-outline /><span><strong>NFS 证据面只读。</strong>配置、日志、源码挂载时没有写路径；操作使用单独的 MCP 函数。</span></div>
-  <div><mdi-check-circle-outline /><span><strong>凭据在模型之前脱敏。</strong>token、密钥、密码被屏蔽；源码与日志仍是不可信输入。</span></div>
-  <div><mdi-check-circle-outline /><span><strong>操作是受限 token 后面的白名单函数。</strong>agent 调用预定义操作 — 无法拼出任意命令。</span></div>
-  <div><mdi-check-circle-outline /><span><strong>技能指导何时调用操作。</strong>授权由 MCP 范围和函数实现强制，而不是技能文本。</span></div>
-  <div><mdi-check-circle-outline /><span><strong>知识写成供查阅的形式。</strong>笔记和技能是工作流的一部分 — 是下一次会话或用户首先读的东西。</span></div>
-</div>
-
-
-<!--
-Timing: 1:00
-
-Five boundaries hold the story together: read-only evidence mounts, credential sanitization, scoped tokens, predefined functions, and reviewed procedural knowledge. The skill tells the agent when to consider an action, but authorization lives in the MCP service; approval for dangerous actions remains a separate requirement. These are distinct controls, not five interchangeable promises.
--->
----
-layout: default
----
-
 # 路线图：用证据赢得自主
 
 <div class="cols mt-2">
@@ -465,12 +445,12 @@ The roadmap. Horizontal: widen the view — more middleware mounts, log early wa
 layout: default
 ---
 
-# 一个视图、有界操作、实践验证
+# 总结
 
-<div class="three-cards takeaway-cards mt-6">
-  <div class="story-card"><strong>1</strong><h2>一个视图</h2><p>dci-agent 看到整条 DCI 链路 — 配置、日志、源码、监控 — 只读且脱敏，聊天或定时可用。</p></div>
-  <div class="story-card"><strong>2</strong><h2>有界操作</h2><p>经 MCP 网关从分析走向操作：受限 token、白名单函数，每次调用都审计。</p></div>
-  <div class="story-card"><strong>3</strong><h2>实践验证</h2><p>v9.0.26 测试部署基本完成；JUNO Re-Production 卡死问题定位到 MQ 根因。</p></div>
+<div class="three-cards takeaway-cards mt-4">
+  <div class="story-card"><strong>1</strong><h2>我们做了什么</h2><p>一个 L2 级的 dci-agent：读得懂整个 DCI，只能执行白名单内的 MCP 函数。</p></div>
+  <div class="story-card"><strong>2</strong><h2>它做成了什么</h2><p>v9.0.26 测试部署基本完成；JUNO Re-Production 卡死定位到 MQ 根因。</p></div>
+  <div class="story-card"><strong>3</strong><h2>如何保证安全</h2><p>证据只读挂载、凭据脱敏、受限 token 与白名单函数、调用留痕 — 关键操作仍需人工。</p></div>
 </div>
 
 <div class="closing-line mt-10">
@@ -482,7 +462,7 @@ layout: default
 <!--
 Timing: 0:50
 
-Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions through the MCP gateway — scoped tokens, whitelisted functions, audited calls. And proven in practice: the v9.0.26 test deployment, and the JUNO re-production freeze traced to its MQ root cause. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
+Summary. We built an L2-level dci-agent on our four-stage scale — it reads across the DCI and acts only through whitelisted MCP functions. It has delivered: the v9.0.26 test deployment largely completed, and the JUNO re-production freeze traced to an unavailable MQ service. And it stays inside clear boundaries: read-only evidence mounts, sanitized credentials, scoped tokens, whitelisted functions, audited calls — critical actions still need a human. Not an autopilot today; a longer reach, with a path toward earned autonomy. Thank you.
 -->
 ---
 layout: cover
