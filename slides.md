@@ -63,7 +63,7 @@ layout: default
 ## 目录
 
 - <strong>第一部分 · dci-agent</strong> — 用它运维 DIRAC 与周边服务
-- <strong>第二部分 · IHEP AI infrastructure</strong> — 背后的平台：MCP 与技能
+- <strong>第二部分 · IHEP AI infrastructure</strong> — AI 平台与 MCP
 
 </div>
 </div>
@@ -275,19 +275,21 @@ Two quick cases. In the isolated test environment we gave the agent operation pe
 layout: section
 ---
 
-# 2 · IHEP AI infrastructure：MCP 与技能
+# 2 · IHEP AI infrastructure：平台与 MCP
 
 
 <!--
 Timing: 0:10
 
-Part two: the IHEP AI infrastructure — first the platform itself, then the MCP services on the read and write sides, and the skills that make the agent useful to administrators and users alike.
+Part two: the IHEP AI infrastructure — the AI platform that provides LLM APIs, and, at the same level, the MCP services on the read and write sides.
 -->
 ---
 layout: default
 ---
 
 # IHEP AI 平台
+
+平台对外提供 <strong>LLM API</strong> — dci-agent 也运行在其上。
 
 <div class="three-cards takeaway-cards mt-4">
   <div class="story-card"><strong>1</strong><h2>自部署模型</h2><p>部署在自有基础设施上的模型服务。</p></div>
@@ -296,7 +298,7 @@ layout: default
 </div>
 
 <div class="takeaway mt-4">
-一套平台同时提供自部署与外部模型，计费跟着用户经费走。
+统一 <strong>LLM API</strong> 入口，同时覆盖自部署与外部模型，计费跟着用户经费走。
 </div>
 
 
@@ -397,34 +399,6 @@ layout: default
 Timing: 0:40
 
 The gateway console, in practice. Login is LDAP-based — the same identity as the cluster. The tool registry holds 78 tools; each protected tool names its required scopes and a risk level, and dangerous operations additionally require the admin role. Scopes map to roles in one place, and every login or API-key verification lands in the audit log. The whitelist is not a slide — it is configuration an administrator can inspect.
--->
----
-layout: default
----
-
-# 经审核的技能让经验可复用
-
-<div class="skill-flow mt-2">
-  <div><small>01 · 做</small><strong>对话<br/>或操作</strong></div><b aria-hidden="true">→</b>
-  <div><small>02 · 提炼</small><strong>agent 总结<br/>有效做法</strong></div><b aria-hidden="true">→</b>
-  <div><small>03 · 审核</small><strong>人工检查<br/>成文内容</strong></div><b aria-hidden="true">→</b>
-  <div><small>04 · 复用</small><strong>发布为<br/>技能</strong></div>
-</div>
-
-<div class="two-notes compact-notes mt-3">
-  <div><strong>面向运维</strong><br/>DIRAC 与作业操作技能、每仓库 agent 指南、v9 升级笔记 — 每次修复都成为下一次会话的文档化起点。</div>
-  <div><strong>面向用户 — 已可用</strong><br/>JUNO DIRAC 基础打包为技能：用户可以让 agent <strong>提交作业</strong>、<strong>查询文件</strong>，不用记住每条命令。</div>
-</div>
-
-<div class="takeaway mt-3">
-下一次会话直接查阅经审核的技能；agent 不必重新摸索同一流程。
-</div>
-
-
-<!--
-Timing: 1:10
-
-Skills are how the system compounds. After a conversation or an operation, the agent summarizes what worked; a human reviews the write-up; approved summaries are published as skills. Two audiences benefit. For operations: DIRAC and job-operations skills, repository guides, the v9 upgrade notes — every fix becomes a documented step. And for users, this is already live: the JUNO DIRAC basics are packaged as skills, so a user can ask the agent to submit a job or query files without remembering every DIRAC command by heart. The same loop — do, summarize, review, publish — powers both.
 -->
 ---
 layout: default
