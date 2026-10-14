@@ -404,26 +404,6 @@ The gateway console, in practice. Login is LDAP-based — the same identity as t
 layout: default
 ---
 
-# Five boundaries limit operational risk
-
-<div class="rule-list mt-3">
-  <div><mdi-check-circle-outline /><span><strong>The NFS evidence plane is read-only.</strong> Configs, logs and source are mounted without a write path; actions use separate MCP functions.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Credentials are sanitized before the model.</strong> Tokens, keys and passwords are masked; source and logs remain untrusted input.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Actions are whitelisted functions behind scoped tokens.</strong> The agent invokes predefined operations — it cannot compose arbitrary commands.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Skills guide when to invoke an action.</strong> Authorization is enforced by the MCP scope and function, not by the skill text.</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Knowledge is written to be consulted.</strong> Notes and skills are part of the workflow — they are what the next session, or the next user, reads first.</span></div>
-</div>
-
-
-<!--
-Timing: 1:00
-
-Five boundaries hold the story together: read-only evidence mounts, credential sanitization, scoped tokens, predefined functions, and reviewed procedural knowledge. The skill tells the agent when to consider an action, but authorization lives in the MCP service; approval for dangerous actions remains a separate requirement. These are distinct controls, not five interchangeable promises.
--->
----
-layout: default
----
-
 # Roadmap: earn autonomy with evidence
 
 <div class="cols mt-2">
@@ -465,12 +445,12 @@ The roadmap. Horizontal: widen the view — more middleware mounts, log early wa
 layout: default
 ---
 
-# One view, bounded actions, proven in practice
+# Summary
 
-<div class="three-cards takeaway-cards mt-6">
-  <div class="story-card"><strong>1</strong><h2>One view</h2><p>dci-agent sees the whole DCI chain — configs, logs, source, monitoring — read-only and sanitized, in chat or on a schedule.</p></div>
-  <div class="story-card"><strong>2</strong><h2>Bounded actions</h2><p>From analysis to action through the MCP gateway: scoped tokens, whitelisted functions, every call audited.</p></div>
-  <div class="story-card"><strong>3</strong><h2>Proven in practice</h2><p>A v9.0.26 test deployment largely completed; a JUNO re-production freeze traced to its MQ root cause.</p></div>
+<div class="three-cards takeaway-cards mt-4">
+  <div class="story-card"><strong>1</strong><h2>What we built</h2><p>An L2-level dci-agent: it reads across the DCI and acts only through whitelisted MCP functions.</p></div>
+  <div class="story-card"><strong>2</strong><h2>What it has done</h2><p>The v9.0.26 test deployment largely completed; a JUNO re-production freeze traced to its MQ root cause.</p></div>
+  <div class="story-card"><strong>3</strong><h2>How it stays safe</h2><p>Read-only evidence mounts, sanitized credentials, scoped tokens and whitelisted functions, audited calls — critical actions need a human.</p></div>
 </div>
 
 <div class="closing-line mt-10">
@@ -482,7 +462,7 @@ A <strong>longer reach for operators and users</strong> — with a path toward e
 <!--
 Timing: 0:50
 
-Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions through the MCP gateway — scoped tokens, whitelisted functions, audited calls. And proven in practice: the v9.0.26 test deployment, and the JUNO re-production freeze traced to its MQ root cause. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
+Summary. We built an L2-level dci-agent on our four-stage scale — it reads across the DCI and acts only through whitelisted MCP functions. It has delivered: the v9.0.26 test deployment largely completed, and the JUNO re-production freeze traced to an unavailable MQ service. And it stays inside clear boundaries: read-only evidence mounts, sanitized credentials, scoped tokens, whitelisted functions, audited calls — critical actions still need a human. Not an autopilot today; a longer reach, with a path toward earned autonomy. Thank you.
 -->
 ---
 layout: cover
