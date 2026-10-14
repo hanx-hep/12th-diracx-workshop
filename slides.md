@@ -454,15 +454,15 @@ layout: default
 </div>
 
 <div class="closing-line mt-10">
-Not an autopilot today.<br/>
-A <strong>longer reach for operators and users</strong> — with a path toward earned autonomy.
+Not an autopilot today — and not in the near future either.<br/>
+But we believe it can get there, step by step.
 </div>
 
 
 <!--
 Timing: 0:50
 
-Summary. We built an L2-level dci-agent on our four-stage scale — it reads across the DCI and acts only through whitelisted MCP functions. It has delivered: the v9.0.26 test deployment largely completed, and the JUNO re-production freeze traced to an unavailable MQ service. And it stays inside clear boundaries: read-only evidence mounts, sanitized credentials, scoped tokens, whitelisted functions, audited calls — critical actions still need a human. Not an autopilot today; a longer reach, with a path toward earned autonomy. Thank you.
+Summary. We built an L2-level dci-agent on our four-stage scale — it reads across the DCI and acts only through whitelisted MCP functions. It has delivered: the v9.0.26 test deployment largely completed, and the JUNO re-production freeze traced to an unavailable MQ service. And it stays inside clear boundaries: read-only evidence mounts, sanitized credentials, scoped tokens, whitelisted functions, audited calls — critical actions still need a human. Not an autopilot today, and not in the near future either — but we believe it can get there, step by step. Thank you.
 -->
 ---
 layout: cover
