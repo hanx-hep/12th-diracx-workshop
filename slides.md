@@ -465,12 +465,12 @@ The roadmap. Horizontal: widen the view — more middleware mounts, log early wa
 layout: default
 ---
 
-# 一个视图、有界操作、可复用知识
+# 一个视图、有界操作、实践验证
 
 <div class="three-cards takeaway-cards mt-6">
-  <div class="story-card"><strong>1</strong><h2>一个视图</h2><p>dci-agent 看到整条链 — 配置、日志、源码、监控 — 只读且脱敏，聊天或定时可用。</p></div>
-  <div class="story-card"><strong>2</strong><h2>分阶段自主</h2><p>从只读分析到经批准的操作：每一步都需要更强的控制与证据。</p></div>
-  <div class="story-card"><strong>3</strong><h2>复利效应</h2><p>技能同时服务管理员与用户 — 每次对话和修复都让下一个任务更容易。</p></div>
+  <div class="story-card"><strong>1</strong><h2>一个视图</h2><p>dci-agent 看到整条 DCI 链路 — 配置、日志、源码、监控 — 只读且脱敏，聊天或定时可用。</p></div>
+  <div class="story-card"><strong>2</strong><h2>有界操作</h2><p>经 MCP 网关从分析走向操作：受限 token、白名单函数，每次调用都审计。</p></div>
+  <div class="story-card"><strong>3</strong><h2>实践验证</h2><p>v9.0.26 测试部署基本完成；JUNO Re-Production 卡死问题定位到 MQ 根因。</p></div>
 </div>
 
 <div class="closing-line mt-10">
@@ -482,7 +482,7 @@ layout: default
 <!--
 Timing: 0:50
 
-Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions, with stronger controls before advancing to more autonomy. And reviewed skills serving both administrators and users. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
+Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions through the MCP gateway — scoped tokens, whitelisted functions, audited calls. And proven in practice: the v9.0.26 test deployment, and the JUNO re-production freeze traced to its MQ root cause. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
 -->
 ---
 layout: cover
