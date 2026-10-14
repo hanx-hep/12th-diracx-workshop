@@ -63,7 +63,7 @@ At IHEP we deployed <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-i
 ## Contents
 
 - <strong>Part 1 · dci-agent</strong> — how we operate DIRAC and services with it
-- <strong>Part 2 · IHEP AI infra</strong> — the platform behind it: MCP and skills
+- <strong>Part 2 · IHEP AI infrastructure</strong> — the platform behind it: MCP and skills
 
 </div>
 </div>
@@ -275,7 +275,7 @@ Two quick cases. In the isolated test environment we gave the agent operation pe
 layout: section
 ---
 
-# 2 · IHEP AI infra: MCP and skills
+# 2 · IHEP AI infrastructure: MCP and skills
 
 
 <!--
@@ -304,45 +304,6 @@ One platform for both in-house and external models — and the bill follows the 
 Timing: 0:35
 
 Before the MCP details, the platform underneath. The IHEP AI platform serves models we deploy ourselves, and it relays external models through one entry. Billing is tied to the user's project funds, so a new user can start quickly without a separate arrangement. dci-agent runs on this platform.
--->
----
-layout: default
----
-
-# Monitoring evidence reaches the agent through MCP
-
-<div class="cols mt-2">
-  <div>
-
-## One queryable evidence layer
-
-- **dci-grafana MCP** — the agent searches dashboards, reads panel queries, runs Prometheus queries, returns rendered panels
-- **31 dashboards as Git JSON** — five provisioning providers, 30 s sync; the agent can compose them, humans review the diff
-- **Central DIRAC logs** — one backend line sends 90+ components through ActiveMQ → Logstash → Elasticsearch
-
-<div class="takeaway compact mt-2">
-People and agents read the <strong>same evidence</strong> — no private data path for the model.
-</div>
-
-  </div>
-  <div>
-
-<div class="dashboard-frame snapshot-frame">
-  <img :src="'images/component-logs-snapshot.png'" alt="Historical Component Logs snapshot showing log levels, rates and example entries" />
-</div>
-
-<div class="text-center mt-2">
-  <span class="muted">Historical snapshot · Sep 2026</span> · <a href="https://dci-grafana.ihep.ac.cn/d/bfgu666p30xdsb/component-logs?orgId=1&from=1788912000000&to=1788998400000&timezone=browser&var-Category=$__all&var-Name=$__all&var-Level=$__all&kiosk"><mdi-open-in-new /> Open dashboard (login required)</a>
-</div>
-
-  </div>
-</div>
-
-
-<!--
-Timing: 1:05
-
-The read side. The dci-grafana MCP lets the agent search dashboards and query monitoring. Our dashboard definitions are JSON in Git; human reviewers decide whether a proposed change is accepted. DIRAC logs are centralized through ActiveMQ, Logstash and Elasticsearch. On the right is a historical snapshot from September 2026, not a live view. The link opens the restricted dashboard for people with Grafana access; a public viewer can still see the evidence on this slide.
 -->
 ---
 layout: default
