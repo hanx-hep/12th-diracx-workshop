@@ -165,7 +165,7 @@ Context. In production we run DIRAC v8.0.58 for JUNO — ninety-plus components,
 layout: default
 ---
 
-# dci-agent brings the DCI chain into one view
+# The dci-agent architecture
 
 <div class="architecture-map mt-2">
   <div class="architecture-source"><strong>READ-ONLY NFS</strong><span>configs · logs · source code · credentials sanitized</span></div>
@@ -181,7 +181,7 @@ layout: default
     <div class="architecture-node"><small>OUTPUT</small><strong>Status reports</strong><span>checks &amp; findings</span></div>
   </div>
   <div class="architecture-triggers">
-    <div class="architecture-chat"><i aria-hidden="true"></i><strong>Feishu · Mattermost · WebUI</strong><span>administrator chat</span></div>
+    <div class="architecture-chat"><i aria-hidden="true"></i><strong>Feishu · Mattermost · WeCom · WebUI</strong><span>administrator chat</span></div>
     <div class="architecture-schedule"><strong>cronjob</strong> → scheduled checks</div>
   </div>
 </div>
@@ -192,7 +192,7 @@ layout: default
 <!--
 Timing: 1:25
 
-The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The IHEP MCP gateway provides monitoring queries on the read side and scoped server-control functions on the write side. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
+The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The IHEP MCP gateway provides monitoring queries on the read side and scoped server-control functions on the write side. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost, WeCom or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
 -->
 ---
 layout: default
@@ -210,6 +210,7 @@ layout: default
 - **Status analysis** — drill into failures and anomalies
 - **Periodic tasks** — schedule recurring checks
 - **Chat** — ask questions in natural language
+- **Log query** — search component logs
 
 </div>
   <div>
@@ -226,18 +227,18 @@ layout: default
 <!--
 Timing: 1:05
 
-A quick walkthrough of the web UI. The dashboard summarizes services and system status; status checks run across the chain; the analysis view drills into failures and anomalies; periodic tasks schedule the same checks; and the chat window takes questions in natural language. The same agent is reachable from Feishu, Mattermost or this web UI.
+A quick walkthrough of the web UI. The dashboard summarizes services and system status; status checks run across the chain; the analysis view drills into failures and anomalies; periodic tasks schedule the same checks; the chat window takes questions in natural language; and component logs are searchable from the same UI. The same agent is reachable from Feishu, Mattermost, WeCom or this web UI.
 -->
 ---
 layout: default
 ---
 
-# The agent helped deploy v9.0.26 in the test bed
+# Two cases where dci-agent helped
 
 <div class="cols mt-2">
   <div>
 
-## What the agent did
+## Case 1 · Test deployment
 
 - Given <strong>operation permission in the test environment only</strong>
 - Installed <strong>DIRAC v9.0.26</strong> and basically completed the deployment
@@ -251,15 +252,14 @@ Production stays on <strong>v8.0.58</strong> — untouched.
   </div>
   <div>
 
-## Why it worked
+## Case 2 · JUNO re-production
 
-- The agent already <strong>knows the DCI system</strong>: configs, logs, and source are its home turf
-- v8-vs-v9 <strong>config comparison</strong> is exactly its kind of cross-file reasoning
-- Install pitfalls became <strong>documented steps</strong>, not repeated debugging
+- Components <strong>stuck</strong> during the JUNO re-production phase
+- dci-agent <strong>troubleshot it quickly</strong>
+- Found the cause: an <strong>unavailable MQ service stalls component sync</strong>
 
 <div class="status-stack tight mt-1">
-  <div><mdi-check-circle-outline /><span><strong>Test deployment largely complete</strong><br/>v9.0.26 on the isolated test host</span></div>
-  <div><mdi-check-circle-outline /><span><strong>Reusable runbook</strong><br/>Each pitfall is a documented step for the next host</span></div>
+  <div><mdi-check-circle-outline /><span><strong>Root cause identified</strong><br/>MQ service down → component sync hangs</span></div>
 </div>
 
   </div>
@@ -269,7 +269,7 @@ Production stays on <strong>v8.0.58</strong> — untouched.
 <!--
 Timing: 1:20
 
-In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.26 and largely completed the deployment; production on v8.0.58 was not touched. Comparing v8 and v9 configuration and tracing startup problems through logs were particularly effective because the agent already had the DCI evidence in view. The pitfalls became reusable notes. Next, the infrastructure that defines which actions an agent may take.
+Two quick cases. In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.26 and largely completed the deployment; production on v8.0.58 was not touched. In the second case, components froze during the JUNO re-production phase; the agent troubleshot it quickly and pinpointed that an unavailable MQ service stalls component sync. Next, the infrastructure that defines which actions an agent may take.
 -->
 ---
 layout: section
