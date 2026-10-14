@@ -454,15 +454,15 @@ layout: default
 </div>
 
 <div class="closing-line mt-10">
-今天不是自动驾驶。<br/>
-是给操作者和用户<strong>更长的手臂</strong> — 有一条靠证据赢得的自主之路。
+今天还不是自动驾驶，短期内也难以实现。<br/>
+但我们相信，一步一步来，未来是可以做到的。
 </div>
 
 
 <!--
 Timing: 0:50
 
-Summary. We built an L2-level dci-agent on our four-stage scale — it reads across the DCI and acts only through whitelisted MCP functions. It has delivered: the v9.0.26 test deployment largely completed, and the JUNO re-production freeze traced to an unavailable MQ service. And it stays inside clear boundaries: read-only evidence mounts, sanitized credentials, scoped tokens, whitelisted functions, audited calls — critical actions still need a human. Not an autopilot today; a longer reach, with a path toward earned autonomy. Thank you.
+Summary. We built an L2-level dci-agent on our four-stage scale — it reads across the DCI and acts only through whitelisted MCP functions. It has delivered: the v9.0.26 test deployment largely completed, and the JUNO re-production freeze traced to an unavailable MQ service. And it stays inside clear boundaries: read-only evidence mounts, sanitized credentials, scoped tokens, whitelisted functions, audited calls — critical actions still need a human. Not an autopilot today, and not in the near future either — but we believe it can get there, step by step. Thank you.
 -->
 ---
 layout: cover
