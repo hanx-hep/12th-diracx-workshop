@@ -60,12 +60,10 @@ layout: default
   </div>
   <div>
 
-## 我们对它的要求
+## 目录
 
-- <strong>看清链路</strong> — 脱敏后的配置、日志、源码与监控
-- <strong>回答与报告</strong> — 聊天按需回答，也可定时执行
-- <strong>协助部署</strong> — 基本完成了 DIRAC v9 测试部署
-- <strong>保持安全</strong> — 构造上只读；操作只能通过白名单 MCP 函数
+- <strong>第一部分 · dci-agent</strong> — 用它运维 DIRAC 与周边服务
+- <strong>第二部分 · IHEP AI infra</strong> — 背后的平台：MCP 与技能
 
 </div>
 </div>
@@ -92,7 +90,7 @@ Part one: dci-agent — how an AI operations assistant should grow, what it is, 
 layout: default
 ---
 
-# 自主能力分四个受控阶段
+# dci-agent 如何成长：四个受控阶段
 
 <div class="four-cards mt-4">
   <div class="story-card">
@@ -275,13 +273,35 @@ Two quick cases. In the isolated test environment we gave the agent operation pe
 layout: section
 ---
 
-# 2 · AI 基础设施：MCP 与技能
+# 2 · IHEP AI infra：MCP 与技能
 
 
 <!--
 Timing: 0:10
 
-Part two: the infrastructure underneath — MCP services on the read and write sides, and the skills that make the agent useful to administrators and users alike.
+Part two: the IHEP AI infrastructure — first the platform itself, then the MCP services on the read and write sides, and the skills that make the agent useful to administrators and users alike.
+-->
+---
+layout: default
+---
+
+# IHEP AI 平台
+
+<div class="three-cards takeaway-cards mt-4">
+  <div class="story-card"><strong>1</strong><h2>自部署模型</h2><p>部署在自有基础设施上的模型服务。</p></div>
+  <div class="story-card"><strong>2</strong><h2>中转外部模型</h2><p>通过平台中转接入的外部模型，统一入口管理。</p></div>
+  <div class="story-card"><strong>3</strong><h2>经费计费</h2><p>用量直接计入用户经费 — 快速开通，便捷使用。</p></div>
+</div>
+
+<div class="takeaway mt-4">
+一套平台同时提供自部署与外部模型，计费跟着用户经费走。
+</div>
+
+
+<!--
+Timing: 0:35
+
+Before the MCP details, the platform underneath. The IHEP AI platform serves models we deploy ourselves, and it relays external models through one entry. Billing is tied to the user's project funds, so a new user can start quickly without a separate arrangement. dci-agent runs on this platform.
 -->
 ---
 layout: default
