@@ -60,12 +60,10 @@ At IHEP we deployed <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-i
   </div>
   <div>
 
-## What we ask of it
+## Contents
 
-- <strong>See the chain</strong> — sanitized configs, logs, source, and monitoring
-- <strong>Answer and report</strong> — on demand in chat, and on a schedule
-- <strong>Help deploy</strong> — it largely completed a DIRAC v9 test deployment
-- <strong>Stay safe</strong> — read-only by construction; actions only through whitelisted MCP functions
+- <strong>Part 1 · dci-agent</strong> — how we operate DIRAC and services with it
+- <strong>Part 2 · IHEP AI infra</strong> — the platform behind it: MCP and skills
 
 </div>
 </div>
@@ -92,7 +90,7 @@ Part one: dci-agent — how an AI operations assistant should grow, what it is, 
 layout: default
 ---
 
-# Autonomy grows in four controlled stages
+# How dci-agent grows: four controlled stages
 
 <div class="four-cards mt-4">
   <div class="story-card">
@@ -275,13 +273,35 @@ Two quick cases. In the isolated test environment we gave the agent operation pe
 layout: section
 ---
 
-# 2 · AI infrastructure: MCP and skills
+# 2 · IHEP AI infra: MCP and skills
 
 
 <!--
 Timing: 0:10
 
-Part two: the infrastructure underneath — MCP services on the read and write sides, and the skills that make the agent useful to administrators and users alike.
+Part two: the IHEP AI infrastructure — first the platform itself, then the MCP services on the read and write sides, and the skills that make the agent useful to administrators and users alike.
+-->
+---
+layout: default
+---
+
+# The IHEP AI platform
+
+<div class="three-cards takeaway-cards mt-4">
+  <div class="story-card"><strong>1</strong><h2>Self-deployed models</h2><p>Models deployed and served on our own infrastructure.</p></div>
+  <div class="story-card"><strong>2</strong><h2>Relayed external models</h2><p>External models reachable through the platform's relay — one entry to manage.</p></div>
+  <div class="story-card"><strong>3</strong><h2>Billing via user funds</h2><p>Usage is charged directly to the user's project funds — quick to start, easy to use.</p></div>
+</div>
+
+<div class="takeaway mt-4">
+One platform for both in-house and external models — and the bill follows the user's funds.
+</div>
+
+
+<!--
+Timing: 0:35
+
+Before the MCP details, the platform underneath. The IHEP AI platform serves models we deploy ourselves, and it relays external models through one entry. Billing is tied to the user's project funds, so a new user can start quickly without a separate arrangement. dci-agent runs on this platform.
 -->
 ---
 layout: default
