@@ -165,7 +165,7 @@ Context. In production we run DIRAC v8.0.58 for JUNO — ninety-plus components,
 layout: default
 ---
 
-# dci-agent 把 DCI 链路纳入一个视图
+# dci-agent 的架构
 
 <div class="architecture-map mt-2">
   <div class="architecture-source"><strong>只读 NFS</strong><span>配置 · 日志 · 源码 · 凭据已脱敏</span></div>
@@ -181,7 +181,7 @@ layout: default
     <div class="architecture-node"><small>输出</small><strong>状态报告</strong><span>检查与发现</span></div>
   </div>
   <div class="architecture-triggers">
-    <div class="architecture-chat"><i aria-hidden="true"></i><strong>飞书 · Mattermost · WebUI</strong><span>管理员对话</span></div>
+    <div class="architecture-chat"><i aria-hidden="true"></i><strong>飞书 · Mattermost · 企业微信 · WebUI</strong><span>管理员对话</span></div>
     <div class="architecture-schedule"><strong>cronjob</strong> → 定时检查</div>
   </div>
 </div>
@@ -192,7 +192,7 @@ layout: default
 <!--
 Timing: 1:25
 
-The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The IHEP MCP gateway provides monitoring queries on the read side and scoped server-control functions on the write side. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
+The architecture. Read-only NFS mounts bring sanitized configurations, logs and source from DIRAC, IHEPDIRAC, FTS3, grid-data and ihep-T1-ce. The IHEP MCP gateway provides monitoring queries on the read side and scoped server-control functions on the write side. Administrators reach the Hermes-based dci-agent through Feishu, Mattermost, WeCom or WebUI; a cronjob triggers scheduled checks, and the agent produces status reports. Notice that this diagram is the evidence path: operational writes do not flow back through the NFS mounts. They use the separate, scoped MCP functions shown later.
 -->
 ---
 layout: default
@@ -210,6 +210,7 @@ layout: default
 - **状态分析** — 深入分析故障与异常
 - **周期任务** — 设置定时检查
 - **对话窗口** — 用自然语言提问
+- **日志查询** — 查询组件日志
 
 </div>
   <div>
@@ -226,18 +227,18 @@ layout: default
 <!--
 Timing: 1:05
 
-A quick walkthrough of the web UI. The dashboard summarizes services and system status; status checks run across the chain; the analysis view drills into failures and anomalies; periodic tasks schedule the same checks; and the chat window takes questions in natural language. The same agent is reachable from Feishu, Mattermost or this web UI.
+A quick walkthrough of the web UI. The dashboard summarizes services and system status; status checks run across the chain; the analysis view drills into failures and anomalies; periodic tasks schedule the same checks; the chat window takes questions in natural language; and component logs are searchable from the same UI. The same agent is reachable from Feishu, Mattermost, WeCom or this web UI.
 -->
 ---
 layout: default
 ---
 
-# agent 在测试环境部署了 v9.0.26
+# dci-agent 的两个实际案例
 
 <div class="cols mt-2">
   <div>
 
-## agent 做了什么
+## 案例 1 · 测试环境部署
 
 - 仅在<strong>测试环境获得操作权限</strong>
 - 安装 <strong>DIRAC v9.0.26</strong>，基本完成部署
@@ -251,15 +252,14 @@ layout: default
   </div>
   <div>
 
-## 为什么可行
+## 案例 2 · JUNO Re-Production
 
-- agent 本来就<strong>熟悉 DCI 系统</strong>：配置、日志、源码是它的主场
-- v8 对比 v9 的<strong>配置比较</strong>正是它擅长的跨文件推理
-- 安装的坑变成<strong>文档化步骤</strong>，不再重复调试
+- Re-Production 阶段组件<strong>卡死</strong>
+- dci-agent <strong>快速排查</strong>
+- 定位原因：<strong>MQ 服务不可用会导致组件同步卡死</strong>
 
 <div class="status-stack tight mt-1">
-  <div><mdi-check-circle-outline /><span><strong>测试部署基本完成</strong><br/>v9.0.26（隔离测试主机）</span></div>
-  <div><mdi-check-circle-outline /><span><strong>可复用运行手册</strong><br/>每个坑都是下一台主机的文档化步骤</span></div>
+  <div><mdi-check-circle-outline /><span><strong>根因已定位</strong><br/>MQ 服务不可用 → 组件同步卡死</span></div>
 </div>
 
   </div>
@@ -269,7 +269,7 @@ layout: default
 <!--
 Timing: 1:20
 
-In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.26 and largely completed the deployment; production on v8.0.58 was not touched. Comparing v8 and v9 configuration and tracing startup problems through logs were particularly effective because the agent already had the DCI evidence in view. The pitfalls became reusable notes. Next, the infrastructure that defines which actions an agent may take.
+Two quick cases. In the isolated test environment we gave the agent operation permission. It installed DIRAC v9.0.26 and largely completed the deployment; production on v8.0.58 was not touched. In the second case, components froze during the JUNO re-production phase; the agent troubleshot it quickly and pinpointed that an unavailable MQ service stalls component sync. Next, the infrastructure that defines which actions an agent may take.
 -->
 ---
 layout: section
