@@ -92,6 +92,8 @@ layout: default
 
 # How dci-agent grows: four controlled stages
 
+Similar to autonomous driving tiers, we classify AI assistants into four distinct levels.
+
 <div class="four-cards mt-4">
   <div class="story-card">
     <h2>1 · Analyzes</h2>
@@ -119,7 +121,7 @@ The learning loop: Hermes can distill conversations and operations into <strong>
 <!--
 Timing: 1:20
 
-How should an AI assistant grow into an operations role? Four stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority. With that framing, here is the estate the assistant works on.
+Like the autonomous-driving levels, we classify AI assistants into four distinct levels. The stages: read-only analysis and alarms; harmless, reversible actions; critical actions with administrator approval; and ultimately full automation. The last stage is a goal, not today's reality. Hermes can summarize conversations and operations into skills for human review. Better models and accumulated knowledge help us move upward, but each stage also needs stronger controls and evidence — learning alone never grants authority. With that framing, here is the estate the assistant works on.
 -->
 ---
 layout: default
