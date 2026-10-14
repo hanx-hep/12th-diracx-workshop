@@ -63,7 +63,7 @@ layout: default
 ## 目录
 
 - <strong>第一部分 · dci-agent</strong> — 用它运维 DIRAC 与周边服务
-- <strong>第二部分 · IHEP AI infra</strong> — 背后的平台：MCP 与技能
+- <strong>第二部分 · IHEP AI infrastructure</strong> — 背后的平台：MCP 与技能
 
 </div>
 </div>
@@ -275,7 +275,7 @@ Two quick cases. In the isolated test environment we gave the agent operation pe
 layout: section
 ---
 
-# 2 · IHEP AI infra：MCP 与技能
+# 2 · IHEP AI infrastructure：MCP 与技能
 
 
 <!--
@@ -304,45 +304,6 @@ layout: default
 Timing: 0:35
 
 Before the MCP details, the platform underneath. The IHEP AI platform serves models we deploy ourselves, and it relays external models through one entry. Billing is tied to the user's project funds, so a new user can start quickly without a separate arrangement. dci-agent runs on this platform.
--->
----
-layout: default
----
-
-# 监控证据通过 MCP 到达 agent
-
-<div class="cols mt-2">
-  <div>
-
-## 一个可查询的证据层
-
-- **dci-grafana MCP** — agent 搜索仪表盘、读取面板查询、执行 Prometheus 查询、返回渲染结果
-- **31 个仪表盘以 Git JSON 存储** — 5 个 provisioning provider，30 秒同步；agent 可组合，人来审核 diff
-- **DIRAC 集中日志** — 一条后端线路把 90+ 组件经 ActiveMQ → Logstash → Elasticsearch 汇聚
-
-<div class="takeaway compact mt-2">
-人和 agent 读<strong>同一份证据</strong> — 模型没有私有数据通道。
-</div>
-
-  </div>
-  <div>
-
-<div class="dashboard-frame snapshot-frame">
-  <img :src="'images/component-logs-snapshot.png'" alt="Component Logs 历史快照：日志等级、速率与示例条目" />
-</div>
-
-<div class="text-center mt-2">
-  <span class="muted">历史快照 · 2026 年 9 月</span> · <a href="https://dci-grafana.ihep.ac.cn/d/bfgu666p30xdsb/component-logs?orgId=1&from=1788912000000&to=1788998400000&timezone=browser&var-Category=$__all&var-Name=$__all&var-Level=$__all&kiosk"><mdi-open-in-new /> 打开仪表盘（需登录）</a>
-</div>
-
-  </div>
-</div>
-
-
-<!--
-Timing: 1:05
-
-The read side. The dci-grafana MCP lets the agent search dashboards and query monitoring. Our dashboard definitions are JSON in Git; human reviewers decide whether a proposed change is accepted. DIRAC logs are centralized through ActiveMQ, Logstash and Elasticsearch. On the right is a historical snapshot from September 2026, not a live view. The link opens the restricted dashboard for people with Grafana access; a public viewer can still see the evidence on this slide.
 -->
 ---
 layout: default
