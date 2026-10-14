@@ -465,12 +465,12 @@ The roadmap. Horizontal: widen the view — more middleware mounts, log early wa
 layout: default
 ---
 
-# One view, bounded actions, reusable knowledge
+# One view, bounded actions, proven in practice
 
 <div class="three-cards takeaway-cards mt-6">
-  <div class="story-card"><strong>1</strong><h2>One view</h2><p>dci-agent sees the whole chain — configs, logs, source, monitoring — read-only and sanitized, in chat or on a schedule.</p></div>
-  <div class="story-card"><strong>2</strong><h2>Staged autonomy</h2><p>From read-only analysis to approved actions: each step needs stronger controls and evidence.</p></div>
-  <div class="story-card"><strong>3</strong><h2>Compounding</h2><p>Skills serve administrators and users alike — every conversation and fix makes the next task easier.</p></div>
+  <div class="story-card"><strong>1</strong><h2>One view</h2><p>dci-agent sees the whole DCI chain — configs, logs, source, monitoring — read-only and sanitized, in chat or on a schedule.</p></div>
+  <div class="story-card"><strong>2</strong><h2>Bounded actions</h2><p>From analysis to action through the MCP gateway: scoped tokens, whitelisted functions, every call audited.</p></div>
+  <div class="story-card"><strong>3</strong><h2>Proven in practice</h2><p>A v9.0.26 test deployment largely completed; a JUNO re-production freeze traced to its MQ root cause.</p></div>
 </div>
 
 <div class="closing-line mt-10">
@@ -482,7 +482,7 @@ A <strong>longer reach for operators and users</strong> — with a path toward e
 <!--
 Timing: 0:50
 
-Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions, with stronger controls before advancing to more autonomy. And reviewed skills serving both administrators and users. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
+Three takeaways. One evidence view across the DCI, available in chat and on a schedule. Bounded actions through the MCP gateway — scoped tokens, whitelisted functions, audited calls. And proven in practice: the v9.0.26 test deployment, and the JUNO re-production freeze traced to its MQ root cause. Today this is not an autopilot; it gives operators and users a longer reach and a deliberate path toward more automation. Thank you.
 -->
 ---
 layout: cover
