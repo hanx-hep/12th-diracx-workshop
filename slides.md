@@ -63,7 +63,7 @@ At IHEP we deployed <img :src="'./images/dci-agent-icon.svg'" class="dci-agent-i
 ## Contents
 
 - <strong>Part 1 · dci-agent</strong> — how we operate DIRAC and services with it
-- <strong>Part 2 · IHEP AI infrastructure</strong> — the platform behind it: MCP and skills
+- <strong>Part 2 · IHEP AI infrastructure</strong> — the AI platform and MCP behind it
 
 </div>
 </div>
@@ -275,19 +275,21 @@ Two quick cases. In the isolated test environment we gave the agent operation pe
 layout: section
 ---
 
-# 2 · IHEP AI infrastructure: MCP and skills
+# 2 · IHEP AI infrastructure: platform and MCP
 
 
 <!--
 Timing: 0:10
 
-Part two: the IHEP AI infrastructure — first the platform itself, then the MCP services on the read and write sides, and the skills that make the agent useful to administrators and users alike.
+Part two: the IHEP AI infrastructure — the AI platform that provides LLM APIs, and, at the same level, the MCP services on the read and write sides.
 -->
 ---
 layout: default
 ---
 
 # The IHEP AI platform
+
+It serves <strong>LLM APIs</strong> to our services — dci-agent runs on them.
 
 <div class="three-cards takeaway-cards mt-4">
   <div class="story-card"><strong>1</strong><h2>Self-deployed models</h2><p>Models deployed and served on our own infrastructure.</p></div>
@@ -296,7 +298,7 @@ layout: default
 </div>
 
 <div class="takeaway mt-4">
-One platform for both in-house and external models — and the bill follows the user's funds.
+One <strong>LLM API</strong> entry for in-house and external models — and the bill follows the user's funds.
 </div>
 
 
@@ -397,34 +399,6 @@ Permissions are <strong>data, not prompts</strong> — per-tool scopes and risk 
 Timing: 0:40
 
 The gateway console, in practice. Login is LDAP-based — the same identity as the cluster. The tool registry holds 78 tools; each protected tool names its required scopes and a risk level, and dangerous operations additionally require the admin role. Scopes map to roles in one place, and every login or API-key verification lands in the audit log. The whitelist is not a slide — it is configuration an administrator can inspect.
--->
----
-layout: default
----
-
-# Reviewed skills make experience reusable
-
-<div class="skill-flow mt-2">
-  <div><small>01 · DO</small><strong>Conversation<br/>or operation</strong></div><b aria-hidden="true">→</b>
-  <div><small>02 · DISTILL</small><strong>Agent summarizes<br/>what worked</strong></div><b aria-hidden="true">→</b>
-  <div><small>03 · REVIEW</small><strong>Human checks<br/>the write-up</strong></div><b aria-hidden="true">→</b>
-  <div><small>04 · REUSE</small><strong>Publish as<br/>a skill</strong></div>
-</div>
-
-<div class="two-notes compact-notes mt-3">
-  <div><strong>For operations</strong><br/>DIRAC and job-operations skills, per-repository agent guides, and the v9 upgrade notes — each fix becomes a documented step the next session starts from.</div>
-  <div><strong>For users — already available</strong><br/>JUNO DIRAC basics packaged as skills: users can ask the agent to <strong>submit jobs</strong> and <strong>query files</strong>, without remembering every command.</div>
-</div>
-
-<div class="takeaway mt-3">
-The next session consults the reviewed skill; the agent need not rediscover the same procedure.
-</div>
-
-
-<!--
-Timing: 1:10
-
-Skills are how the system compounds. After a conversation or an operation, the agent summarizes what worked; a human reviews the write-up; approved summaries are published as skills. Two audiences benefit. For operations: DIRAC and job-operations skills, repository guides, the v9 upgrade notes — every fix becomes a documented step. And for users, this is already live: the JUNO DIRAC basics are packaged as skills, so a user can ask the agent to submit a job or query files without remembering every DIRAC command by heart. The same loop — do, summarize, review, publish — powers both.
 -->
 ---
 layout: default
