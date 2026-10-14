@@ -311,33 +311,6 @@ Before the MCP details, the platform underneath. The IHEP AI platform serves mod
 layout: default
 ---
 
-# MCP 函数定义了 agent 能执行什么
-
-<div class="action-flow mt-2">
-  <div><small>请求</small><strong>dci-agent</strong><span>运维意图</span></div><b aria-hidden="true">→</b>
-  <div><small>身份</small><strong>受限 token</strong><span>仅允许的操作</span></div><b aria-hidden="true">→</b>
-  <div><small>边界</small><strong>MCP 函数</strong><span>预定义参数</span></div><b aria-hidden="true">→</b>
-  <div><small>目标</small><strong>DIRAC / FTS</strong><span>具体服务</span></div>
-</div>
-
-<div class="action-examples"><span>例：重启选定的 DIRAC 组件</span><span>例：重启 FTS 服务</span></div>
-
-<div class="rule-list mt-3">
-  <div><mdi-key-outline /><span><strong>受限 token</strong> — agent 用专用 token 认证，其 scope 明确列出可执行的内容；其余均不可达。</span></div>
-  <div><mdi-cube-outline /><span><strong>操作是代码，不是提示词</strong> — "重启组件 X" 是 MCP 服务内的内部函数；agent 无法拼出任意的 shell 命令。</span></div>
-  <div><mdi-book-open-variant-outline /><span><strong>技能引导决策</strong> — 技能描述何时调用函数；真正能否执行由 token 范围和 MCP 实现强制。</span></div>
-</div>
-
-
-<!--
-Timing: 1:20
-
-The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
--->
----
-layout: default
----
-
 # MCP 网关架构
 
 客户端通过标准 <strong>MCP JSON-RPC</strong> 与网关通信；每次调用先经验证，才会执行工具。
@@ -364,6 +337,33 @@ graph LR
 Timing: 0:40
 
 One slide on how the gateway itself is built. Clients — dci-agent, scripts, other agents — speak MCP JSON-RPC to the gateway. Before any tool executes, the call is verified: the auth service checks the key against LDAP identity and PostgreSQL state and returns the allowed scopes. Verified calls are dispatched to FastMCP, which triggers the backend tools — HTCondor, SLURM and the rest. The same auth service serves the React web console. Layered and decoupled: each piece can be inspected and replaced on its own.
+-->
+---
+layout: default
+---
+
+# MCP 函数定义了 agent 能执行什么
+
+<div class="action-flow mt-2">
+  <div><small>请求</small><strong>dci-agent</strong><span>运维意图</span></div><b aria-hidden="true">→</b>
+  <div><small>身份</small><strong>受限 token</strong><span>仅允许的操作</span></div><b aria-hidden="true">→</b>
+  <div><small>边界</small><strong>MCP 函数</strong><span>预定义参数</span></div><b aria-hidden="true">→</b>
+  <div><small>目标</small><strong>DIRAC / FTS</strong><span>具体服务</span></div>
+</div>
+
+<div class="action-examples"><span>例：重启选定的 DIRAC 组件</span><span>例：重启 FTS 服务</span></div>
+
+<div class="rule-list mt-3">
+  <div><mdi-key-outline /><span><strong>受限 token</strong> — agent 用专用 token 认证，其 scope 明确列出可执行的内容；其余均不可达。</span></div>
+  <div><mdi-cube-outline /><span><strong>操作是代码，不是提示词</strong> — "重启组件 X" 是 MCP 服务内的内部函数；agent 无法拼出任意的 shell 命令。</span></div>
+  <div><mdi-book-open-variant-outline /><span><strong>技能引导决策</strong> — 技能描述何时调用函数；真正能否执行由 token 范围和 MCP 实现强制。</span></div>
+</div>
+
+
+<!--
+Timing: 1:20
+
+The write side is separate. A dedicated token limits which MCP functions are callable; the service exposes predefined operations such as restarting a selected DIRAC component or FTS service rather than an arbitrary shell interface. Skills advise the model when a call is appropriate, but they are not an authorization gate: the token and MCP implementation enforce that boundary. For a critical operation we would add explicit administrator approval; that is the next stage, not something to infer from today's function catalog.
 -->
 ---
 layout: default
